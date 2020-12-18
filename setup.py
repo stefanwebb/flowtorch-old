@@ -15,6 +15,7 @@ TEST_REQUIRES = ["pytest", "pytest-cov"]
 DEV_REQUIRES = TEST_REQUIRES + [
     "black",
     "flake8",
+    "flake8-bugbear",
     "isort",
     "recommonmark",
     "sphinx",
