@@ -1,12 +1,12 @@
-# Copyright (c) Simplex Development Team. All Rights Reserved
+# Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
 import torch
 import torch.distributions
 from torch.distributions import constraints
 
-import simplex
-import simplex.distributions
+import flowtorch
+import flowtorch.distributions
 
 
 class Bijector(object):
@@ -44,7 +44,7 @@ class Bijector(object):
             params = self.param_fn(
                 input_shape, self.param_shapes(base_dist)
             )  # <= this is where hypernets etc. are instantiated
-            new_dist = simplex.distributions.TransformedDistribution(
+            new_dist = flowtorch.distributions.TransformedDistribution(
                 base_dist, self, params
             )
             return new_dist, params

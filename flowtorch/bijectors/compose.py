@@ -1,14 +1,14 @@
-# Copyright (c) Simplex Development Team. All Rights Reserved
+# Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
 import torch
 import torch.distributions
 from torch.distributions import constraints
 
-import simplex
+import flowtorch
 
 
-class Compose(simplex.Bijector):
+class Compose(flowtorch.Bijector):
     def __init__(self, bijectors):
         self.bijectors = bijectors
         self.event_dim = max([b.event_dim for b in self.bijectors])
@@ -36,7 +36,7 @@ class Compose(simplex.Bijector):
             params = self.param_fn(
                 input_shape, self.param_shapes(x)
             )  # <= this is where hypernets etc. are instantiated
-            new_dist = simplex.distributions.TransformedDistribution(x, self, params)
+            new_dist = flowtorch.distributions.TransformedDistribution(x, self, params)
             return new_dist, params
 
         # TODO: Handle other types of inputs such as tensors
