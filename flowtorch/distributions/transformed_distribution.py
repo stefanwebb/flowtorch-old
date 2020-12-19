@@ -18,7 +18,9 @@ class TransformedDistribution(torch.distributions.Distribution):
         self.cache = {}
 
         shape = self.base_dist.batch_shape + self.base_dist.event_shape
-        event_dim = max(len(self.base_dist.event_shape), self.bijector.event_dim)
+        event_dim = max(
+            len(self.base_dist.event_shape), self.bijector.event_dim
+        )
         batch_shape = shape[: len(shape) - event_dim]
         event_shape = shape[len(shape) - event_dim :]
         super(TransformedDistribution, self).__init__(
@@ -27,8 +29,8 @@ class TransformedDistribution(torch.distributions.Distribution):
 
     def sample(
         self,
-        sample_shape=torch.Size(),
-    ) -> Tensor:  # noqa: B008  # noqa: B008
+        sample_shape=torch.Size(),  # noqa: B008
+    ) -> Tensor:
         """
         Generates a sample_shape shaped sample or sample_shape shaped batch of
         samples if the distribution parameters are batched. Samples first from
@@ -42,8 +44,8 @@ class TransformedDistribution(torch.distributions.Distribution):
 
     def rsample(
         self,
-        sample_shape=torch.Size(),
-    ) -> Tensor:  # noqa: B008
+        sample_shape=torch.Size(),  # noqa: B008
+    ) -> Tensor:
         """
         Generates a sample_shape shaped reparameterized sample or sample_shape
         shaped batch of reparameterized samples if the distribution parameters
@@ -67,7 +69,8 @@ class TransformedDistribution(torch.distributions.Distribution):
             event_dim - self.bijector.event_dim,
         )
         log_prob = log_prob + _sum_rightmost(
-            self.base_dist.log_prob(x), event_dim - len(self.base_dist.event_shape)
+            self.base_dist.log_prob(x),
+            event_dim - len(self.base_dist.event_shape),
         )
 
         # self.cache(y,)

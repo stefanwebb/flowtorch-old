@@ -58,7 +58,9 @@ def create_mask(
     # We use 0 to refer to the elements of the variable being conditioned on,
     # and range(1:(D_latent+1)) for the input variable
     var_index = torch.empty(permutation.shape, dtype=torch.get_default_dtype())
-    var_index[permutation] = torch.arange(input_dim, dtype=torch.get_default_dtype())
+    var_index[permutation] = torch.arange(
+        input_dim, dtype=torch.get_default_dtype()
+    )
 
     # Create the indices that are assigned to the neurons
     input_indices = torch.cat((torch.zeros(context_dim), 1 + var_index))
@@ -66,16 +68,20 @@ def create_mask(
     # For conditional MADE, introduce a 0 index that all the conditioned
     # variables are connected to as per Paige and Wood (2016) (see below)
     if context_dim > 0:
-        hidden_indices = [sample_mask_indices(input_dim, h) - 1 for h in hidden_dims]
+        hidden_indices = [
+            sample_mask_indices(input_dim, h) - 1 for h in hidden_dims
+        ]
     else:
-        hidden_indices = [sample_mask_indices(input_dim - 1, h) for h in hidden_dims]
+        hidden_indices = [
+            sample_mask_indices(input_dim - 1, h) for h in hidden_dims
+        ]
 
     output_indices = (var_index + 1).repeat(output_dim_multiplier)
 
     # Create mask from input to output for the skips connections
-    mask_skip = (output_indices.unsqueeze(-1) > input_indices.unsqueeze(0)).type_as(
-        var_index
-    )
+    mask_skip = (
+        output_indices.unsqueeze(-1) > input_indices.unsqueeze(0)
+    ).type_as(var_index)
 
     # Create mask from input to first hidden layer, and between subsequent hidden layers
     masks = [
@@ -86,15 +92,16 @@ def create_mask(
     for i in range(1, len(hidden_dims)):
         masks.append(
             (
-                hidden_indices[i].unsqueeze(-1) >= hidden_indices[i - 1].unsqueeze(0)
+                hidden_indices[i].unsqueeze(-1)
+                >= hidden_indices[i - 1].unsqueeze(0)
             ).type_as(var_index)
         )
 
     # Create mask from last hidden layer to output layer
     masks.append(
-        (output_indices.unsqueeze(-1) > hidden_indices[-1].unsqueeze(0)).type_as(
-            var_index
-        )
+        (
+            output_indices.unsqueeze(-1) > hidden_indices[-1].unsqueeze(0)
+        ).type_as(var_index)
     )
 
     return masks, mask_skip
@@ -162,12 +169,17 @@ class DenseAutoregressive(flowtorch.Params):
         # Calculate the indices on the output corresponding to each parameter
         ends = torch.cumsum(
             torch.tensor(
-                [max(torch.sum(torch.tensor(s)).item(), 1) for s in param_shapes]
+                [
+                    max(torch.sum(torch.tensor(s)).item(), 1)
+                    for s in param_shapes
+                ]
             ),
             dim=0,
         )
         starts = torch.cat((torch.zeros(1).type_as(ends), ends[:-1]))
-        self.param_slices = [slice(s.item(), e.item()) for s, e in zip(starts, ends)]
+        self.param_slices = [
+            slice(s.item(), e.item()) for s, e in zip(starts, ends)
+        ]
 
         # Hidden dimension must be not less than the input otherwise it isn't
         # possible to connect to the outputs correctly
@@ -207,7 +219,9 @@ class DenseAutoregressive(flowtorch.Params):
         # Create masked layers
         layers = [
             MaskedLinear(
-                self.input_dims + self.context_dims, hidden_dims[0], self.masks[0]
+                self.input_dims + self.context_dims,
+                hidden_dims[0],
+                self.masks[0],
             )
         ]
         for i in range(1, len(hidden_dims)):
@@ -254,10 +268,14 @@ class DenseAutoregressive(flowtorch.Params):
 
         # Shape the output
         if len(self.input_shape) == 0:
-            h = h.reshape(x.size()[:-1] + (self.output_multiplier, self.input_dims))
+            h = h.reshape(
+                x.size()[:-1] + (self.output_multiplier, self.input_dims)
+            )
             h = tuple(
                 h[..., p_slice, :].reshape(h.shape[:-2] + p_shape + (1,))
-                for p_slice, p_shape in zip(self.param_slices, self.param_shapes)
+                for p_slice, p_shape in zip(
+                    self.param_slices, self.param_shapes
+                )
             )
         else:
             h = h.reshape(
@@ -265,7 +283,11 @@ class DenseAutoregressive(flowtorch.Params):
                 + (self.output_multiplier, self.input_dims)
             )
             h = tuple(
-                h[..., p_slice, :].reshape(h.shape[:-2] + p_shape + self.input_shape)
-                for p_slice, p_shape in zip(self.param_slices, self.param_shapes)
+                h[..., p_slice, :].reshape(
+                    h.shape[:-2] + p_shape + self.input_shape
+                )
+                for p_slice, p_shape in zip(
+                    self.param_slices, self.param_shapes
+                )
             )
         return h

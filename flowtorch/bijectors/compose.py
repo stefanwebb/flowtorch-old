@@ -36,7 +36,9 @@ class Compose(flowtorch.Bijector):
             params = self.param_fn(
                 input_shape, self.param_shapes(x)
             )  # <= this is where hypernets etc. are instantiated
-            new_dist = flowtorch.distributions.TransformedDistribution(x, self, params)
+            new_dist = flowtorch.distributions.TransformedDistribution(
+                x, self, params
+            )
             return new_dist, params
 
         # TODO: Handle other types of inputs such as tensors
