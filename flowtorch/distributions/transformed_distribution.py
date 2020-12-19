@@ -18,9 +18,7 @@ class TransformedDistribution(torch.distributions.Distribution):
         self.cache = {}
 
         shape = self.base_dist.batch_shape + self.base_dist.event_shape
-        event_dim = max(
-            len(self.base_dist.event_shape), self.bijector.event_dim
-        )
+        event_dim = max(len(self.base_dist.event_shape), self.bijector.event_dim)
         batch_shape = shape[: len(shape) - event_dim]
         event_shape = shape[len(shape) - event_dim :]
         super(TransformedDistribution, self).__init__(

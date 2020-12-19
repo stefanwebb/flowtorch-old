@@ -13,9 +13,7 @@ batch_dim = 100
 input_dim = 10
 
 # Create stateless bijector and stateful hypernetwork
-base_dist = torch.distributions.Normal(
-    torch.zeros(input_dim), torch.ones(input_dim)
-)
+base_dist = torch.distributions.Normal(torch.zeros(input_dim), torch.ones(input_dim))
 bijection = bijectors.AffineAutoregressive()
 lazy_params = params.DenseAutoregressive(hidden_dims=[50])
 params = lazy_params(torch.Size([input_dim]), bijection.param_shapes(base_dist))
@@ -46,12 +44,8 @@ print("inv(y)", y_inv)
 # print(hypernet(x))
 
 # Example of creating transformed distribution
-flow = flowtorch.bijectors.AffineAutoregressive(
-    flowtorch.params.DenseAutoregressive()
-)
-base_dist = torch.distributions.Normal(
-    torch.zeros(input_dim), torch.ones(input_dim)
-)
+flow = flowtorch.bijectors.AffineAutoregressive(flowtorch.params.DenseAutoregressive())
+base_dist = torch.distributions.Normal(torch.zeros(input_dim), torch.ones(input_dim))
 
 new_dist, params = flow(base_dist)
 print(type(new_dist), type(params))

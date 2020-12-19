@@ -51,9 +51,7 @@ class Bijector(object):
 
         # TODO: Handle other types of inputs such as tensors
         else:
-            raise TypeError(
-                f"Bijector called with invalid type: {type(base_dist)}"
-            )
+            raise TypeError(f"Bijector called with invalid type: {type(base_dist)}")
 
     def forward(self, x, params=None):
         """
