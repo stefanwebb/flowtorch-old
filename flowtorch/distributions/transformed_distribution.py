@@ -1,4 +1,4 @@
-# Copyright (c) Simplex Development Team. All Rights Reserved
+# Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
 import weakref
@@ -67,7 +67,8 @@ class TransformedDistribution(torch.distributions.Distribution):
             event_dim - self.bijector.event_dim,
         )
         log_prob = log_prob + _sum_rightmost(
-            self.base_dist.log_prob(x), event_dim - len(self.base_dist.event_shape)
+            self.base_dist.log_prob(x),
+            event_dim - len(self.base_dist.event_shape),
         )
 
         # self.cache(y,)

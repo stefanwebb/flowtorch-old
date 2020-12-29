@@ -1,4 +1,4 @@
-# Copyright (c) Simplex Development Team. All Rights Reserved
+# Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
 import os
@@ -8,13 +8,14 @@ import sys
 from setuptools import find_packages, setup
 
 REQUIRED_MAJOR = 3
-REQUIRED_MINOR = 7
+REQUIRED_MINOR = 6
 
 
 TEST_REQUIRES = ["pytest", "pytest-cov"]
 DEV_REQUIRES = TEST_REQUIRES + [
     "black",
     "flake8",
+    "flake8-bugbear",
     "isort",
     "recommonmark",
     "sphinx",
@@ -39,7 +40,7 @@ if sys.version_info < (REQUIRED_MAJOR, REQUIRED_MINOR):
 
 # get version string from module
 current_dir = os.path.dirname(__file__)
-init_file = os.path.join(current_dir, "simplex", "__init__.py")
+init_file = os.path.join(current_dir, "flowtorch", "__init__.py")
 version_regexp = r"__version__ = ['\"]([^'\"]*)['\"]"
 with open(init_file, "r") as f:
     version = re.search(version_regexp, f.read(), re.M).group(1)
@@ -49,15 +50,16 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="simplex",
+    name="flowtorch",
     version=version,
-    description="Deep probabilistic modelling with PyTorch",
-    author="Simplex Development Team",
+    description="Normalizing Flows for PyTorch",
+    author="FlowTorch Development Team",
+    author_email="info@stefanwebb.me",
     license="MIT",
-    url="https://www.github.com/stefanwebb/simplex",
+    url="https://www.github.com/stefanwebb/flowtorch",
     project_urls={
-        "Documentation": "https://www.github.com/stefanwebb/simplex",
-        "Source": "https://www.github.com/stefanwebb/simplex",
+        "Documentation": "https://www.github.com/stefanwebb/flowtorch",
+        "Source": "https://www.github.com/stefanwebb/flowtorch",
     },
     keywords=[
         "Deep Learning",
@@ -76,12 +78,11 @@ setup(
     ],
     long_description=long_description,
     long_description_content_type="text/markdown",
-    python_requires=">=3.7",
+    python_requires=f">={REQUIRED_MAJOR}.{REQUIRED_MINOR}",
     install_requires=[
         "torch>=1.6.0",
     ],
-    packages=find_packages("simplex", "simplex.*"),
-    # package_dir={"": "simplex"},
+    packages=find_packages(),
     extras_require={
         "dev": DEV_REQUIRES,
         "test": TEST_REQUIRES,

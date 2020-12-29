@@ -1,9 +1,21 @@
-import simplex
-import simplex.bijectors
-import simplex.params
+# Copyright (c) FlowTorch Development Team. All Rights Reserved
+# SPDX-License-Identifier: MIT
+
+import flowtorch
+import flowtorch.bijectors
+import flowtorch.params
 
 
 def test_bijector_constructor():
-    param_fn = simplex.params.DenseAutoregressive()
-    b = simplex.bijectors.AffineAutoregressive(param_fn=param_fn)
+    param_fn = flowtorch.params.DenseAutoregressive()
+    b = flowtorch.bijectors.AffineAutoregressive(param_fn=param_fn)
     assert b is not None
+
+
+# class TestClass:
+#     def test_shapes(self):
+#         """
+#         Tests output shapes of bijector
+#         """
+
+#         assert "h" in x
