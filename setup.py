@@ -51,7 +51,6 @@ with open("README.md", "r") as fh:
 
 setup(
     name="flowtorch",
-    version=version,
     description="Normalizing Flows for PyTorch",
     author="FlowTorch Development Team",
     author_email="info@stefanwebb.me",
@@ -82,6 +81,12 @@ setup(
     install_requires=[
         "torch>=1.6.0",
     ],
+    setup_requires=["setuptools_scm"],
+    use_scm_version={
+        "root": ".",
+        "relative_to": __file__,
+        "write_to": os.path.join("flowtorch", "version.py"),
+    },
     packages=find_packages(),
     extras_require={
         "dev": DEV_REQUIRES,

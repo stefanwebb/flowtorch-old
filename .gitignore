@@ -1,4 +1,5 @@
 flowtorch.egg-info
+flowtorch/version.py
 *.pyc
 .ipynb_checkpoints/
 docs/_build/
