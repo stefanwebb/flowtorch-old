@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import os
-import re
 import sys
 
 from setuptools import find_packages, setup
@@ -37,13 +36,6 @@ if sys.version_info < (REQUIRED_MAJOR, REQUIRED_MINOR):
     )
     sys.exit(error)
 
-
-# get version string from module
-current_dir = os.path.dirname(__file__)
-init_file = os.path.join(current_dir, "flowtorch", "__init__.py")
-version_regexp = r"__version__ = ['\"]([^'\"]*)['\"]"
-with open(init_file, "r") as f:
-    version = re.search(version_regexp, f.read(), re.M).group(1)
 
 # read in README.md as the long description
 with open("README.md", "r") as fh:
