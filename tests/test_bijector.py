@@ -12,6 +12,7 @@ import flowtorch
 import flowtorch.bijectors
 import flowtorch.params
 
+
 class NealsFunnel(dist.Distribution):
     """
     Neal's funnel.
@@ -50,10 +51,12 @@ class NealsFunnel(dist.Distribution):
 
         return log_prob
 
+
 def test_bijector_constructor():
     param_fn = flowtorch.params.DenseAutoregressive()
     b = flowtorch.bijectors.AffineAutoregressive(param_fn=param_fn)
     assert b is not None
+
 
 def test_neals_funnel_vi():
     torch.manual_seed(42)
@@ -61,7 +64,9 @@ def test_neals_funnel_vi():
     flow = flowtorch.bijectors.AffineAutoregressive(
         flowtorch.params.DenseAutoregressive()
     )
-    tdist, params = flow(dist.Independent(dist.Normal(torch.zeros(2), torch.ones(2)), 1))
+    tdist, params = flow(
+        dist.Independent(dist.Normal(torch.zeros(2), torch.ones(2)), 1)
+    )
     opt = torch.optim.Adam(params.parameters(), lr=1e-2)
     num_elbo_mc_samples = 100
     for _ in range(300):
