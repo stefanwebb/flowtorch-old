@@ -11,7 +11,7 @@ from flowtorch.utils import clamp_preserve_gradients
 
 
 class AffineAutoregressive(flowtorch.Bijector):
-    event_dim = 1
+    event_dim = 0
     autoregressive = True
     default_param_fn = flowtorch.params.DenseAutoregressive()
 
