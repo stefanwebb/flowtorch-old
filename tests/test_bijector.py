@@ -67,8 +67,8 @@ def test_neals_funnel_vi():
     tdist, params = flow(
         dist.Independent(dist.Normal(torch.zeros(2), torch.ones(2)), 1)
     )
-    opt = torch.optim.Adam(params.parameters(), lr=1e-2)
-    num_elbo_mc_samples = 100
+    opt = torch.optim.Adam(params.parameters(), lr=1e-3)
+    num_elbo_mc_samples = 1000
     for _ in range(300):
         z0 = tdist.base_dist.rsample(sample_shape=(num_elbo_mc_samples,))
         zk = flow._forward(z0, params)
