@@ -215,15 +215,13 @@ class DenseAutoregressive(flowtorch.Params):
                 hidden_dims[0],
                 self.masks[0],
             ),
-            # torch.nn.PReLU(num_parameters=hidden_dims[0], init=1.0),
-            torch.nn.ReLU(),
+            torch.nn.PReLU(num_parameters=hidden_dims[0], init=1.0),
         ]
         for i in range(1, len(hidden_dims)):
             layers.extend(
                 [
                     MaskedLinear(hidden_dims[i - 1], hidden_dims[i], self.masks[i]),
-                    torch.nn.ReLU(),
-                    # torch.nn.PReLU(num_parameters=hidden_dims[i], init=1.0),
+                    torch.nn.PReLU(num_parameters=hidden_dims[i], init=1.0),
                 ]
             )
         layers.append(
