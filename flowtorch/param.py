@@ -17,11 +17,8 @@ class ParamsModuleList(torch.nn.Module):
         self.params_modules = nn.ModuleList(params_modules)
 
     def forward(self, x: torch.Tensor) -> Optional[Sequence[torch.Tensor]]:
-        return [
-            p.params.forward(x)
-            for p in self.params_modules
-        ]
-    
+        return [p.params.forward(x) for p in self.params_modules]
+
     def __iter__(self):
         return iter(self.params_modules)
 

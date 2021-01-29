@@ -48,10 +48,12 @@ class Compose(flowtorch.Bijector):
             raise TypeError(f"Bijector called with invalid type: {type(x)}")
 
     def param_fn(self, input_shape, param_shapes):
-        return flowtorch.param.ParamsModuleList([
-            b.param_fn(input_shape, pshape)
-            for b, pshape in zip(self.bijectors, param_shapes)
-        ])
+        return flowtorch.param.ParamsModuleList(
+            [
+                b.param_fn(input_shape, pshape)
+                for b, pshape in zip(self.bijectors, param_shapes)
+            ]
+        )
 
     # NOTE: We overwrite forward rather than _forward so that the composed
     # bijectors can handle the caching separately!
