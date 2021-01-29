@@ -73,19 +73,19 @@ class Compose(flowtorch.Bijector):
 
         return y
 
-    def log_abs_det_jacobian(self, x, _, params=None):
+    def log_abs_det_jacobian(self, x, y, params=None):
         """
         Computes the log det jacobian `log |dy/dx|` given input and output.
         By default, assumes a volume preserving bijection.
         """
         ldj = _sum_rightmost(
-            torch.zeros_like(x),
+            torch.zeros_like(y),
             self.event_dim,
         )
         for bijector, param in zip(self.bijectors, params):
-            y = bijector.forward(x, param)
-            ldj += bijector.log_abs_det_jacobian(x, y, param)
-            x = y
+            x = bijector.inverse(y, param)
+            ldj -= bijector.log_abs_det_jacobian(x, y, param)
+            y = x
         return ldj
 
     def param_shapes(self, dist):

@@ -27,41 +27,38 @@ class AffineAutoregressive(flowtorch.Bijector):
         self.log_scale_max_clip = log_scale_max_clip
         self.sigmoid_bias = sigmoid_bias
 
-    def _forward(
-        self, x: torch.Tensor, params: Optional[flowtorch.ParamsModule]
-    ) -> torch.Tensor:
-        assert isinstance(params, flowtorch.ParamsModule)
-        mean, log_scale = params(x)
-        log_scale = clamp_preserve_gradients(
-            log_scale, self.log_scale_min_clip, self.log_scale_max_clip
-        )
-        scale = torch.exp(log_scale)
-        y = scale * x + mean
-        return y
-
     def _inverse(
         self, y: torch.Tensor, params: Optional[flowtorch.ParamsModule]
     ) -> torch.Tensor:
         assert isinstance(params, flowtorch.ParamsModule)
-        x_size = y.size()[:-1]
-        input_dim = y.size(-1)
-        x = [torch.zeros(x_size, device=y.device)] * input_dim
+        mean, log_scale = params(y)
+        log_scale = clamp_preserve_gradients(
+            log_scale, self.log_scale_min_clip, self.log_scale_max_clip
+        )
+        inverse_scale = torch.exp(-log_scale)
+        x = inverse_scale * y + mean
+        return x
+
+    def _forward(
+        self, x: torch.Tensor, params: Optional[flowtorch.ParamsModule]
+    ) -> torch.Tensor:
+        assert isinstance(params, flowtorch.ParamsModule)
+        y = torch.zeros_like(x)
 
         # NOTE: Inversion is an expensive operation that scales in the
         # dimension of the input
         for idx in params.permutation:  # type: ignore
-            mean, log_scale = params(torch.stack(x, dim=-1))
-            inverse_scale = torch.exp(
-                -clamp_preserve_gradients(
+            mean, log_scale = params(x.clone())
+            scale = torch.exp(
+                clamp_preserve_gradients(
                     log_scale[..., idx],
                     min=self.log_scale_min_clip,
                     max=self.log_scale_max_clip,
                 )
             )  # * 10
             mean = mean[..., idx]
-            x[idx] = (y[..., idx] - mean) * inverse_scale
-
-        return torch.stack(x, dim=-1)
+            y[..., idx] = (x[..., idx] - mean) * scale
+        return y
 
     def _log_abs_det_jacobian(
         self, x: torch.Tensor, y: torch.Tensor, params: Optional[flowtorch.ParamsModule]
