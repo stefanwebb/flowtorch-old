@@ -4,11 +4,15 @@
 import torch
 import torch.distributions
 from torch.distributions import constraints
+from torch.distributions.utils import _sum_rightmost
 
 import flowtorch
+import flowtorch.param
 
 
 class Compose(flowtorch.Bijector):
+    event_dim = 1
+
     def __init__(self, bijectors):
         self.bijectors = bijectors
         self.event_dim = max([b.event_dim for b in self.bijectors])
@@ -18,7 +22,7 @@ class Compose(flowtorch.Bijector):
         self.codomain = constraints.real_vector
 
         self.identity_initialization = all(
-            [b.identity_intialization for b in self.bijectors]
+            [b.identity_initialization for b in self.bijectors]
         )
         self.autoregressive = all([b.autoregressive for b in self.bijectors])
 
@@ -43,6 +47,12 @@ class Compose(flowtorch.Bijector):
         else:
             raise TypeError(f"Bijector called with invalid type: {type(x)}")
 
+    def param_fn(self, input_shape, param_shapes):
+        return flowtorch.param.ParamsModuleList([
+            b.param_fn(input_shape, pshape)
+            for b, pshape in zip(self.bijectors, param_shapes)
+        ])
+
     # NOTE: We overwrite forward rather than _forward so that the composed
     # bijectors can handle the caching separately!
     def forward(self, x, params=None):
@@ -61,15 +71,20 @@ class Compose(flowtorch.Bijector):
 
         return y
 
-    def log_abs_det_jacobian(self, x, y, params=None):
+    def log_abs_det_jacobian(self, x, _, params=None):
         """
         Computes the log det jacobian `log |dy/dx|` given input and output.
         By default, assumes a volume preserving bijection.
         """
-
-        # TODO: Sum out self.event_dim right-most dimensions
-        # self.event_dim may be > 0 for derived classes!
-        return torch.zeros_like(x)
+        ldj = _sum_rightmost(
+            torch.zeros_like(x),
+            self.event_dim,
+        )
+        for bijector, param in zip(self.bijectors, params):
+            y = bijector.forward(x, param)
+            ldj += bijector.log_abs_det_jacobian(x, y, param)
+            x = y
+        return ldj
 
     def param_shapes(self, dist):
         """
@@ -80,6 +95,6 @@ class Compose(flowtorch.Bijector):
         p_shapes = []
 
         for b in self.bijectors:
-            p_shapes.append(b.param_shapes())
+            p_shapes.append(b.param_shapes(dist=None))  # TODO: fix None
 
-        return None
+        return p_shapes
