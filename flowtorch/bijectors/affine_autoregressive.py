@@ -57,7 +57,7 @@ class AffineAutoregressive(flowtorch.Bijector):
                 )
             )  # * 10
             mean = mean[..., idx]
-            x[idx] = (y[..., idx] - mean) * inverse_scale
+            x[..., idx] = (y[..., idx] - mean) * inverse_scale
 
         return x
 
