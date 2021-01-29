@@ -215,13 +215,15 @@ class DenseAutoregressive(flowtorch.Params):
                 hidden_dims[0],
                 self.masks[0],
             ),
-            torch.nn.PReLU(num_parameters=hidden_dims[0], init=1.0),
+            # torch.nn.PReLU(num_parameters=hidden_dims[0], init=1.0),
+            torch.nn.ReLU(),
         ]
         for i in range(1, len(hidden_dims)):
             layers.extend(
                 [
                     MaskedLinear(hidden_dims[i - 1], hidden_dims[i], self.masks[i]),
-                    torch.nn.PReLU(num_parameters=hidden_dims[i], init=1.0),
+                    torch.nn.ReLU(),
+                    # torch.nn.PReLU(num_parameters=hidden_dims[i], init=1.0),
                 ]
             )
         layers.append(
@@ -319,8 +321,9 @@ class DenseAutoregressive(flowtorch.Params):
                 x.size()[: -len(self.input_shape)]
                 + (self.output_multiplier, self.input_dims)
             )
+            result = h.split([sl.stop - sl.start for sl in self.param_slices], dim=-2)
             result = tuple(
-                h[..., p_slice, :].reshape(h.shape[:-2] + p_shape + self.input_shape)
-                for p_slice, p_shape in zip(self.param_slices, list(self.param_shapes))
+                h_slice.view(h.shape[:-2] + p_shape + self.input_shape)
+                for h_slice, p_shape in zip(result, list(self.param_shapes))
             )
         return result
