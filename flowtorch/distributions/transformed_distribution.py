@@ -76,7 +76,7 @@ class TransformedDistribution(dist.Distribution):
             self.bijector.log_abs_det_jacobian(x, y, self.params()),
             event_dim - self.bijector.event_dim,
         )
-        log_prob = log_prob + _sum_rightmost(
+        log_prob += _sum_rightmost(
             self.base_dist.log_prob(x),
             event_dim - len(self.base_dist.event_shape),
         )
