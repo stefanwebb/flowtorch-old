@@ -1,7 +1,7 @@
 # Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 import weakref
-from typing import cast, Optional, Sequence, Tuple, Union
+from typing import Optional, Sequence, Tuple, Union, cast
 
 import torch
 import torch.distributions
@@ -12,10 +12,7 @@ import flowtorch.distributions
 
 
 class Bijector(object):
-    _inv: Optional[Union[
-        weakref.ReferenceType,
-        "Bijector"
-    ]]
+    _inv: Optional[Union[weakref.ReferenceType, "Bijector"]]
 
     # Metadata about (the default) bijector
     event_dim = 0
