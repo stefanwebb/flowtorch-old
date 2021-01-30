@@ -1,8 +1,7 @@
 # Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 import weakref
-import copy
-from typing import Optional, Sequence, Tuple
+from typing import cast, Optional, Sequence, Tuple, Union
 
 import torch
 import torch.distributions
@@ -13,6 +12,11 @@ import flowtorch.distributions
 
 
 class Bijector(object):
+    _inv: Optional[Union[
+        weakref.ReferenceType["_InverseBijector"],
+        "Bijector",
+    ]]
+
     # Metadata about (the default) bijector
     event_dim = 0
     domain = constraints.real_vector
@@ -117,13 +121,9 @@ class Bijector(object):
         return (torch.Size([]),)
 
     def inv(self) -> "Bijector":
-        # new_bij = copy.deepcopy(self)
-        # new_bij._forward, new_bij._inverse = new_bij._inverse, new_bij._forward
-        # new_bij._ladj_orig = new_bij._log_abs_det_jacobian
-        # new_bij._log_abs_det_jacobian = lambda x, y, params: -new_bij._ladj_orig(y, x, params)
-        # return new_bij
         if self._inv is not None:
-            inv = self._inv()
+            # TODO: remove casting without failing mypy
+            inv = cast(_InverseBijector, cast(weakref.ReferenceType[_InverseBijector], self._inv)())
         else:
             inv = _InverseBijector(self)
             self._inv = weakref.ref(inv)
@@ -134,6 +134,7 @@ class Bijector(object):
 
 
 class _InverseBijector(Bijector):
+    _inv: Bijector
     """
     Inverts a single :class:`Bijector`.
     This class is private; please instead use the ``Bijector.inv`` property.
@@ -141,11 +142,11 @@ class _InverseBijector(Bijector):
 
     def __init__(self, bijector: Bijector):
         super(_InverseBijector, self).__init__(param_fn=bijector.param_fn)
-        self._inv: Bijector = bijector
-        self.param_fn = self._inv.param_fn
-        self.domain = self._inv.codomain
-        self.codomain = self._inv.domain
-        self.event_dim = self._inv.event_dim
+        self._inv = bijector
+        self.param_fn = bijector.param_fn
+        self.domain = bijector.codomain
+        self.codomain = bijector.domain
+        self.event_dim = bijector.event_dim
 
     @property
     def inv(self):
@@ -177,5 +178,5 @@ class _InverseBijector(Bijector):
 
     def param_shapes(
         self, dist: torch.distributions.Distribution
-    ) -> Tuple[torch.Size, torch.Size]:
+    ) -> Sequence[torch.Size]:
         return self._inv.param_shapes(dist)
