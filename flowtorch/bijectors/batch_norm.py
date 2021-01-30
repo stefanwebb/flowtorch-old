@@ -1,9 +1,10 @@
 # Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
+from typing import Optional, Sequence, Tuple
+
 import torch
 import torch.nn as nn
-from typing import Optional, Sequence
 
 import flowtorch
 
@@ -13,8 +14,8 @@ class BatchNormModule(nn.Module):
         super(BatchNormModule, self).__init__()
         self.log_gamma = nn.Parameter(torch.zeros(num_inputs))
         self.beta = nn.Parameter(torch.zeros(num_inputs))
-        self.register_buffer('running_mean', torch.zeros(num_inputs))
-        self.register_buffer('running_var', torch.ones(num_inputs))
+        self.register_buffer("running_mean", torch.zeros(num_inputs))
+        self.register_buffer("running_var", torch.ones(num_inputs))
 
     def forward(self, x):
         return (self.log_gamma, self.beta, self.running_mean, self.running_var)
@@ -35,6 +36,7 @@ class BatchNormParams(flowtorch.Params):
         context: Optional[torch.Tensor] = None,
         modules: Optional[nn.ModuleList] = None,
     ) -> Optional[Sequence[torch.Tensor]]:
+        assert isinstance(modules, flowtorch.ParamsModule)
         return next(iter(modules)).forward(None)
 
 
@@ -57,7 +59,7 @@ class BatchNorm(flowtorch.Bijector, nn.Module):
         inputs: torch.Tensor,
         params: Sequence[torch.Tensor],
         mode: str = "direct",
-    ):
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
         log_gamma, beta, running_mean, running_var = params
         if mode == "direct":
             if self.training:
@@ -84,8 +86,8 @@ class BatchNorm(flowtorch.Bijector, nn.Module):
                 mean = self.batch_mean
                 var = self.batch_var
             else:
-                mean = self.running_mean
-                var = self.running_var
+                mean = running_mean
+                var = running_var
 
             x_hat = (inputs - beta) / torch.exp(log_gamma)
 
@@ -96,14 +98,17 @@ class BatchNorm(flowtorch.Bijector, nn.Module):
     def _forward(
         self, x: torch.Tensor, params: Optional["flowtorch.ParamsModule"]
     ) -> torch.Tensor:
+        assert isinstance(params, flowtorch.ParamsModule)
         return self._batch_norm(x, params(x), mode="reverse")[0]
 
     def _log_abs_det_jacobian(
         self, x: torch.Tensor, y: torch.Tensor, params
     ) -> torch.Tensor:
+        assert isinstance(params, flowtorch.ParamsModule)
         return -self._batch_norm(y, params(y), mode="direct")[1]
 
     def _inverse(
         self, y: torch.Tensor, params: Optional["flowtorch.ParamsModule"]
     ) -> torch.Tensor:
+        assert isinstance(params, flowtorch.ParamsModule)
         return self._batch_norm(y, params(y), mode="direct")[0]
