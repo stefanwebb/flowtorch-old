@@ -84,7 +84,7 @@ class Compose(flowtorch.Bijector):
         )
         for bijector, param in zip(self.bijectors, params):
             x = bijector.inverse(y, param)
-            ldj -= bijector.log_abs_det_jacobian(x, y, param)
+            ldj += bijector.log_abs_det_jacobian(x, y, param)
             y = x
         return ldj
 
