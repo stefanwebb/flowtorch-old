@@ -13,8 +13,8 @@ import flowtorch.distributions
 
 class Bijector(object):
     _inv: Optional[Union[
-        weakref.ReferenceType["_InverseBijector"],
-        "Bijector",
+        weakref.ReferenceType,
+        "Bijector"
     ]]
 
     # Metadata about (the default) bijector
@@ -123,7 +123,7 @@ class Bijector(object):
     def inv(self) -> "Bijector":
         if self._inv is not None:
             # TODO: remove casting without failing mypy
-            inv = cast(_InverseBijector, cast(weakref.ReferenceType[_InverseBijector], self._inv)())
+            inv = cast(_InverseBijector, cast(weakref.ReferenceType, self._inv)())
         else:
             inv = _InverseBijector(self)
             self._inv = weakref.ref(inv)
