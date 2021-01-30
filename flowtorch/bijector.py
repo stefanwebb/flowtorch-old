@@ -1,6 +1,6 @@
 # Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
-
+import copy
 from typing import Optional, Sequence, Tuple
 
 import torch
@@ -113,6 +113,13 @@ class Bijector(object):
         set.
         """
         return (torch.Size([]),)
+
+    def inv(self) -> "Bijector":
+        new_bij = copy.deepcopy(self)
+        new_bij._forward, new_bij._inverse = new_bij._inverse, new_bij._forward
+        new_bij._ladj_orig = new_bij._log_abs_det_jacobian
+        new_bij._log_abs_det_jacobian = lambda x, y, params: -new_bij._ladj_orig(x, y, params)
+        return new_bij
 
     def __repr__(self) -> str:
         return self.__class__.__name__ + "()"
