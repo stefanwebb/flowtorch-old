@@ -83,9 +83,9 @@ class Compose(flowtorch.Bijector):
             self.event_dim,
         )
         for bijector, param in zip(reversed(self.bijectors), reversed(params)):
-            x = bijector.inverse(y, param)
-            ldj += bijector.log_abs_det_jacobian(x, y, param)
-            y = x
+            y_inv = bijector.inverse(y, param)
+            ldj += bijector.log_abs_det_jacobian(y_inv, y, param)
+            y = y_inv
         return ldj
 
     def param_shapes(self, dist):
