@@ -4,7 +4,8 @@
 # TODO: Scan all classes deriving from Bijector in flowtorch.bijector and add here
 # automatically
 from flowtorch.bijectors.affine_autoregressive import AffineAutoregressive
+from flowtorch.bijectors.batch_norm import BatchNorm
 from flowtorch.bijectors.compose import Compose
 from flowtorch.bijectors.sigmoid import Sigmoid
 
-__all__ = ["AffineAutoregressive", "Compose", "Sigmoid"]
+__all__ = ["AffineAutoregressive", "BatchNorm", "Compose", "Sigmoid"]
