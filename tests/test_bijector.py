@@ -101,13 +101,12 @@ def test_inv():
     inv_tdist, inv_params = inv_flow(
         dist.Independent(dist.Normal(torch.zeros(2), torch.ones(2)), 1)
     )
-    x = torch.zeros(1,2)
+    x = torch.zeros(1, 2)
     y = flow.forward(x, params)
-    assert (
-        tdist.bijector.log_abs_det_jacobian(x, y, params) 
-        == inv_tdist.bijector.log_abs_det_jacobian(y, x, inv_params)
-    )
-
+    assert tdist.bijector.log_abs_det_jacobian(
+        x, y, params
+    ) == inv_tdist.bijector.log_abs_det_jacobian(y, x, inv_params)
+    assert flow.inv().inv == flow
 
 
 # class TestClass:
