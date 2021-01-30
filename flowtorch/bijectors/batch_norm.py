@@ -101,7 +101,7 @@ class BatchNorm(flowtorch.Bijector, nn.Module):
     def _log_abs_det_jacobian(
         self, x: torch.Tensor, y: torch.Tensor, params
     ) -> torch.Tensor:
-        return self._batch_norm(x, params(x), mode="direct")[1]
+        return -self._batch_norm(y, params(y), mode="direct")[1]
 
     def _inverse(
         self, y: torch.Tensor, params: Optional["flowtorch.ParamsModule"]
