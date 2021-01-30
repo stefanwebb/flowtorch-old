@@ -4,7 +4,7 @@
 from typing import Any, Dict, Optional, Sequence, Tuple
 
 import torch
-from torch import nn
+from torch import nn, optim
 from torchkit import flows, nn as nn_
 
 import flowtorch
@@ -108,7 +108,18 @@ class NeuralAutoregressive(flowtorch.Bijector):
         self, x: torch.Tensor, params: Optional[flowtorch.ParamsModule]
     ) -> torch.Tensor:
         assert isinstance(params, flowtorch.ParamsModule)
-        raise NotImplementedError
+
+        y_guess = nn.Parameter(x.clone())
+        optimizer = optim.Adam([y_guess], lr=1e-1)
+
+        for _ in range(100):
+            optimizer.zero_grad()
+            x_guess, _ = params(y_guess)
+            loss = (x - x_guess).norm()
+            loss.backward()
+            optimizer.step()    
+        
+        return y_guess
 
     def _inverse(
         self, y: torch.Tensor, params: Optional[flowtorch.ParamsModule]

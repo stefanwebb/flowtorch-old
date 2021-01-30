@@ -45,10 +45,9 @@ class TransformedDistribution(dist.Distribution):
         base distribution and applies `transform()` for every transform in the
         list.
         """
-        with torch.no_grad():
-            x = self.base_dist.sample(sample_shape)
-            x = self.bijector.forward(x, self.params())
-            return x
+        x = self.base_dist.sample(sample_shape)
+        x = self.bijector.forward(x, self.params())
+        return x
 
     def rsample(
         self,
