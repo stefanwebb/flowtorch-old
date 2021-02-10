@@ -18,6 +18,9 @@
   --ifm-color-primary-lightest: #ffb4a5;
   --ifm-card-background-color: var(--ifm-background-color);
   --ifm-footer-background-color: var(--ifm-background-surface-color);
+  --ifm-hero-background-color: rgb(43, 49, 55);
+  --ifm-hero-text-color: white;
+  --ifm-navbar-background-color: white;
 }
 
 html[data-theme="dark"] {
@@ -28,6 +31,8 @@ html[data-theme="dark"] {
   --ifm-color-primary-light: #ffd980;
   --ifm-color-primary-lighter: #ffde91;
   --ifm-color-primary-lightest: #ffeec5;
+  --ifm-navbar-background-color: rgb(36, 37, 38);
+  --ifm-hero-text-color: white;
 }
 
 .docusaurus-highlight-code-line {
