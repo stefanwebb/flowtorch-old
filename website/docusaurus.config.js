@@ -8,6 +8,7 @@ module.exports = {
   favicon: 'img/favicon.png',
   organizationName: 'stefanwebb',
   projectName: 'flowtorch',
+  baseUrlIssueBanner: true,
   themeConfig: {
     announcementBar: {
       id: 'supportus',
@@ -27,19 +28,19 @@ module.exports = {
       items: [
         {
           to: 'users',
-          activeBasePath: 'docs',
+          activeBasePath: 'users',
           label: 'Users',
           position: 'left',
         },
         {
           to: 'dev',
-          activeBasePath: 'docs',
+          activeBasePath: 'dev',
           label: 'Developers',
           position: 'left',
         },
         {
           to: 'api',
-          activeBasePath: 'docs',
+          activeBasePath: 'api',
           label: 'Reference',
           position: 'left',
         },
@@ -129,7 +130,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/stefanwebb/flowtorch/edit/master/website/',
-          //routeBasePath: '/',
+          routeBasePath: '/',
         },
         blog: false,
         theme: {
