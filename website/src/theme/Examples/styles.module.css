@@ -2,6 +2,10 @@
   border-top: 1px solid var(--ifm-color-emphasis-300);
 }*/
 
+.examples {
+  margin-bottom: 3rem;
+}
+
 .animation_svg {
   margin-top: 11rem;
 }
