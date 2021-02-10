@@ -308,12 +308,19 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .button[href*="user"]:before {
-  content: url("/img/long-arrow-alt-right-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/long-arrow-alt-right-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.875rem;
+  height: 1rem;
+  margin-top: 0.45rem;
+  margin-right: 0.5rem;
+}
+
+html[data-theme="dark"] .button[href*="user"]:before {
+  background-color: black;
 }
 
 .footer__link-item:hover:before {
