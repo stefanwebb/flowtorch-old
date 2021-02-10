@@ -5,15 +5,20 @@ import torch
 import torch.distributions
 from torch.distributions import constraints
 from torch.distributions.utils import _sum_rightmost
+from typing import Sequence
 
 import flowtorch
 import flowtorch.param
 
 
 class Compose(flowtorch.Bijector):
+    """Compose multiple bijections in series."""
+
     event_dim = 1
+    bijectors: Sequence[flowtorch.Bijector]
 
     def __init__(self, bijectors):
+        super().__init__(self.param_fn)
         self.bijectors = bijectors
         self.event_dim = max([b.event_dim for b in self.bijectors])
 
@@ -97,6 +102,6 @@ class Compose(flowtorch.Bijector):
         p_shapes = []
 
         for b in self.bijectors:
-            p_shapes.append(b.param_shapes(dist=None))  # TODO: fix None
+            p_shapes.append(b.param_shapes(dist))  # TODO: fix None
 
         return p_shapes

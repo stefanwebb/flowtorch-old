@@ -5,7 +5,8 @@
 # automatically
 from flowtorch.bijectors.affine_autoregressive import AffineAutoregressive
 from flowtorch.bijectors.batch_norm import BatchNorm
+from flowtorch.bijectors.bnaf import BNAF
 from flowtorch.bijectors.compose import Compose
 from flowtorch.bijectors.sigmoid import Sigmoid
 
-__all__ = ["AffineAutoregressive", "BatchNorm", "Compose", "Sigmoid"]
+__all__ = ["AffineAutoregressive", "BatchNorm", "BNAF", "Compose", "Sigmoid"]

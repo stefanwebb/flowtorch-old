@@ -21,6 +21,7 @@ def sample_mask_indices(
     :param simple: True to space fractional indices by rounding to nearest
     int, false round randomly
     """
+
     indices = torch.linspace(1, input_dim, steps=hidden_dim, device="cpu").to(
         torch.Tensor().device
     )
@@ -273,7 +274,7 @@ class DenseAutoregressive(flowtorch.Params):
 
     def _forward(
         self,
-        x: Optional[torch.Tensor] = None,
+        x: Optional[torch.Tensor],
         context: Optional[torch.Tensor] = None,
         modules: Optional[nn.ModuleList] = None,
     ) -> Sequence[torch.Tensor]:
