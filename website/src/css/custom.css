@@ -327,6 +327,18 @@ html[data-theme="dark"] .button[href*="user"]:before {
   background-color: var(--ifm-footer-link-hover-color);
 }
 
+.navbar__item.navbar__link--active[href*="user"]:before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
+.navbar__item.navbar__link--active[href*="dev"]:before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
+.navbar__item.navbar__link--active[href*="api"]:before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
 /*.tooltip {
   position: relative;
   display: inline-block;
