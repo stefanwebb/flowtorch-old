@@ -140,7 +140,6 @@ class ResFlowParams(flowtorch.Params):
         x: torch.Tensor,
         context: Optional[torch.Tensor] = None,
         modules: Optional[nn.ModuleList] = None,
-        mode: str = "forward",
     ) -> Optional[Sequence[torch.Tensor]]:
         assert isinstance(modules, nn.ModuleList)
         mod = next(iter(modules))
@@ -166,18 +165,18 @@ class ResidualFlow(flowtorch.Bijector):
         self, x: torch.Tensor, params: Optional[flowtorch.ParamsModule]
     ) -> torch.Tensor:
         assert isinstance(params, flowtorch.ParamsModule)
-        return params(x, mode="forward")[0]
+        return params(x)[0]
 
     def _inverse(
         self, y: torch.Tensor, params: Optional[flowtorch.ParamsModule]
     ) -> torch.Tensor:
-        return params(y, mode="backward")[0]
+        raise NotImplementedError()
 
     def _log_abs_det_jacobian(
         self, x: torch.Tensor, y: torch.Tensor, params: Optional[flowtorch.ParamsModule]
     ) -> torch.Tensor:
         assert isinstance(params, flowtorch.ParamsModule)
-        return params(x, mode="forward")[1]
+        return -params(x)[1]
 
     def update_lipschitz(model, n_iterations):
         for m in model.modules():
