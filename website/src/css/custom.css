@@ -139,25 +139,33 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="api"]:before {
-  content: url("/img/book-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/book-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.875rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem;
 }
+
 
 .footer__link-item[href*="dev"] {
   display: flex;
 }
 
 .footer__link-item[href*="dev"]:before {
-  content: url("/img/terminal-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/terminal-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.25rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;  
 }
 
 .footer__link-item[href*="users"] {
@@ -165,12 +173,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="users"]:before {
-  content: url("/img/user-astronaut-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/user-astronaut-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.875rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem;
 }
 
 .footer__link-item[href*="projects"] {
@@ -178,12 +190,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="projects"]:before {
-  content: url("/img/tasks-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/tasks-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.875rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem; 
 }
 
 .footer__link-item[href*="fork"] {
@@ -191,12 +207,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="fork"]:before {
-  content: url("/img/code-branch-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/code-branch-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.75rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem;
 }
 
 .footer__link-item[href*="choose"] {
@@ -204,12 +224,15 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="choose"]:before {
-  content: url("/img/hand-sparkles-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/hand-sparkles-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.25rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;  
 }
 
 .footer__link-item[href*="discussions"] {
@@ -217,12 +240,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="discussions"]:before {
-  content: url("/img/comments-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/comments-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.125rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5625rem;
+  margin-left: 0.0625rem;
 }
 
 .footer__link-item[href*="feedback"] {
@@ -230,12 +257,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="feedback"]:before {
-  content: url("/img/smile-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/smile-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 0.99rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.63rem;
+  margin-left: 0.13rem;
 }
 
 .footer__link-item[href*="LICENSE.txt"] {
@@ -243,12 +274,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="LICENSE.txt"]:before {
-  content: url("/img/scroll-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/scroll-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.25rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem;
 }
 
 .footer__link-item[href*="code-of-conduct"] {
@@ -256,12 +291,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="code-of-conduct"]:before {
-  content: url("/img/handshake-solid.svg");
-  width: 0.85rem;
-  height: 0.85rem;
-  padding-right: 0.5rem;
-  fill:white;
-  filter: invert(100%);
+  mask: url("/img/handshake-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.25rem;
+  height: 1rem;
+  margin-top: 0.5rem;
+  margin-right: 0.6875rem;
+  margin-left: 0.1875rem;
 }
 
 .button[href*="user"] {
@@ -277,7 +316,11 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   filter: invert(100%);
 }
 
-.tooltip {
+.footer__link-item:hover:before {
+  background-color: var(--ifm-footer-link-hover-color);
+}
+
+/*.tooltip {
   position: relative;
   display: inline-block;
 }
@@ -291,4 +334,4 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent black transparent;
-}
+}*/
