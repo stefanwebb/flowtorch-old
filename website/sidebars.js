@@ -2,7 +2,7 @@ module.exports = {
   usersSidebar: {
     "Getting Started": ['users/intro', 'users/installation', 'users/start'],
     "Normalizing Flows": ['users/univariate', 'users/multivariate', 'users/conditional'],
-    "Basic Concepts": ['users/shapes', 'users/constraints', 'users/bijectors', 'users/parameters', 'users/transformed_distributions', 'users/composing'],
+    "Basic Concepts": ['users/shapes', 'users/constraints', 'users/bijectors', 'users/parameters', 'users/transformed_distributions', 'users/composing', 'users/gpu_support'],
     "Advanced Topics": ['users/caching', 'users/initialization', 'users/structure', 'users/torchscript'],
   },
   devsSidebar: {

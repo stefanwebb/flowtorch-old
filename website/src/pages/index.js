@@ -6,6 +6,14 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
+// Prism (Rust)
+import Prism from "prism-react-renderer/prism";
+(typeof global !== "undefined" ? global : window).Prism = Prism;
+require("prismjs/components/prism-rust");
+
+// Our theme
+import Examples from "@theme/Examples";
+
 const features = [
   {
     title: 'Easy to Use',
@@ -85,7 +93,7 @@ function Home() {
         </div>
       </header>
       <main>
-        {features && features.length > 0 && (
+          <Examples />
           <section className={styles.features}>
             <div className="container">
               <div className="row">
@@ -95,7 +103,6 @@ function Home() {
               </div>
             </div>
           </section>
-        )}
       </main>
     </Layout>
   );

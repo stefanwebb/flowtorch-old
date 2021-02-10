@@ -6,13 +6,17 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
-  organizationName: 'stefanwebb', // Usually your GitHub org/user name.
-  projectName: 'flowtorch', // Usually your repo name.
+  organizationName: 'stefanwebb',
+  projectName: 'flowtorch',
   themeConfig: {
     announcementBar: {
       id: 'supportus',
       content:
         '⭐️ If you like FlowTorch, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/stefanwebb/flowtorch">GitHub</a>! ⭐️',
+    },
+    prism: {
+      theme: require("prism-react-renderer/themes/github"),
+      darkTheme: require("prism-react-renderer/themes/dracula"),
     },
     navbar: {
       title: 'FlowTorch',
@@ -124,10 +128,8 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/stefanwebb/flowtorch/edit/master/website/',
-          routeBasePath: '/',
+          editUrl: 'https://github.com/stefanwebb/flowtorch/edit/master/website/',
+          //routeBasePath: '/',
         },
         blog: false,
         theme: {
