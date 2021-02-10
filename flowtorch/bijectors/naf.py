@@ -2,9 +2,9 @@ from typing import Literal, Optional, Sequence, Tuple, Union
 
 import torch
 import torch.nn as nn
-
-from torchkit import flows, nn as nn_, utils
-
+from torchkit import flows
+from torchkit import nn as nn_
+from torchkit import utils
 
 import flowtorch
 

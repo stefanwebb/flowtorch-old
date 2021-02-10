@@ -3,6 +3,7 @@
 
 from flowtorch.bijector import Bijector
 from flowtorch.param import Params, ParamsModule
+
 from . import distributions
 
 __all__ = ["Bijector", "Params", "ParamsModule", "distributions"]

@@ -1,11 +1,9 @@
 from typing import Optional, Sequence, Tuple
 
+import residual_flows.lib.layers as layers
+import residual_flows.lib.layers.base as base_layers
 import torch
 import torch.nn as nn
-
-import residual_flows.lib.layers.base as base_layers
-import residual_flows.lib.layers as layers
-
 
 import flowtorch
 
@@ -180,3 +178,14 @@ class ResidualFlow(flowtorch.Bijector):
     ) -> torch.Tensor:
         assert isinstance(params, flowtorch.ParamsModule)
         return params(x, mode="forward")[1]
+
+    def update_lipschitz(model, n_iterations):
+        for m in model.modules():
+            if isinstance(m, base_layers.SpectralNormConv2d) or isinstance(
+                m, base_layers.SpectralNormLinear
+            ):
+                m.compute_weight(update=True, n_iterations=n_iterations)
+            if isinstance(m, base_layers.InducedNormConv2d) or isinstance(
+                m, base_layers.InducedNormLinear
+            ):
+                m.compute_weight(update=True, n_iterations=n_iterations)

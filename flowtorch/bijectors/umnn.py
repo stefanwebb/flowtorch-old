@@ -2,9 +2,7 @@ from typing import Optional, Sequence, Tuple
 
 import torch
 import torch.nn as nn
-
 from UMNN.models.UMNN import UMNNMAFFlow
-
 
 import flowtorch
 

@@ -1,11 +1,12 @@
 # Copyright (c) FlowTorch Development Team. All Rights Reserved
 # SPDX-License-Identifier: MIT
 
+from typing import Sequence
+
 import torch
 import torch.distributions
 from torch.distributions import constraints
 from torch.distributions.utils import _sum_rightmost
-from typing import Sequence
 
 import flowtorch
 import flowtorch.param
