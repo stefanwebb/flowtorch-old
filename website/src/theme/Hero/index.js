@@ -13,29 +13,48 @@ function Hero() {
   return (
     <header id="hero" className={clsx("hero", styles.banner)}>
       <div className="container">
-        <img
-          src={useBaseUrl(`img/logo.svg`)}
-          alt="Logo"
-          className={styles.logo}
-        />
+          <div className="row">
+            
+          <h1 className="hero__subtitle">
+            <img className="hero__img" src="img/logo.svg" />
+            Easily <b>learn</b> and <b>sample</b> complex probability distributions with PyTorch
+          </h1>
 
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className={clsx("hero__subtitle", styles.subtitle)}>
-          {siteConfig.tagline}
-        </p>
-
-        <div className={styles.buttons}>
-          <Link
-            className={clsx(
-              "button button--primary button--lg",
-              styles.getStarted
-            )}
-            to={useBaseUrl("users")}
-          >
-            Get Started
-          </Link>
+          </div>
+          <div className="hero__buttons row">
+            <div className={styles.buttons}>
+              <Link
+                className={clsx(
+                  "button button--primary button--lg",
+                  styles.getStarted
+                )}
+                to={useBaseUrl("users")}
+              >
+                Get Started
+              </Link>
+            </div>
+            <div className={styles.buttons}>
+              <Link
+                className={clsx(
+                  "button button--warning button--lg",
+                  styles.getStarted
+                )}
+                to={useBaseUrl("dev")}
+              >
+                Contribute
+              </Link>
+              
+                <iframe
+                  className="hero__github_button"
+                  src="https://ghbtns.com/github-btn.html?user=stefanwebb&amp;repo=flowtorch&amp;type=star&amp;count=true&amp;size=large"
+                  width={160}
+                  height={30}
+                  title="GitHub Stars"
+                />
+              
+            </div>
+          </div>
         </div>
-      </div>
     </header>
   );
 }

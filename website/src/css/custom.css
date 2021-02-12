@@ -21,6 +21,15 @@
   --ifm-hero-background-color: rgb(43, 49, 55);
   --ifm-hero-text-color: white;
   --ifm-navbar-background-color: white;
+  --color-button-primary: rgb(255, 99, 68);
+  --color-button-primary-hover: rgb(255, 81, 46);
+  --color-button-secondary: rgb(255, 186, 0);
+  --color-button-secondary-hover: rgb(233, 169, 0);
+}
+
+div[class^='announcementBarContent'] {
+  background-color: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
 }
 
 html[data-theme="dark"] {
@@ -33,6 +42,67 @@ html[data-theme="dark"] {
   --ifm-color-primary-lightest: #ffeec5;
   --ifm-navbar-background-color: rgb(36, 37, 38);
   --ifm-hero-text-color: white;
+}
+
+html[data-theme="dark"] svg {
+  filter: invert(100%);
+}
+
+.hero__subtitle {
+  font-size: 3.75rem;
+  text-align: left;
+}
+
+.hero__subtitle b {
+  color: var(--ifm-color-primary);
+}
+
+.hero__github_button {
+  border: none;
+}
+
+.hero__buttons .button--primary {
+  background-color: var(--color-button-primary);
+  border-color: var(--color-button-primary);
+}
+
+.hero__buttons .button--primary:hover {
+  background-color: var(--color-button-primary-hover);
+  border-color: var(--color-button-primary-hover);
+}
+
+html[data-theme="dark"] .hero__buttons .button--primary {
+  background-color: var(--color-button-primary);
+  border-color: var(--color-button-primary);
+}
+
+html[data-theme="dark"] .hero__buttons .button--primary:hover {
+  background-color: var(--color-button-primary-hover);
+  border-color: var(--color-button-primary-hover);
+}
+
+.hero__img {
+  float: right;
+  max-width: 175px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 30px;
+}
+
+.hero__buttons {
+  padding-top: 2rem;
+}
+
+.hero__buttons .button {
+  margin-right: 3rem;
+}
+
+.banner_src-theme-Hero- {
+  text-align: left;
+}
+
+.hero__buttons .button--lg {
+  --ifm-button-size-multiplier: 1.5;
 }
 
 .docusaurus-highlight-code-line {
@@ -291,11 +361,11 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   margin-left: 0.1875rem;
 }
 
-.footer__link-item[href*="code-of-conduct"] {
+.footer__link-item[href*="code-of-conduct/"] {
   display: flex;
 }
 
-.footer__link-item[href*="code-of-conduct"]:before {
+.footer__link-item[href*="code-of-conduct/"]:before {
   mask: url("/img/handshake-solid.svg");
   mask-size: cover;
   display: inline-block;
@@ -313,18 +383,38 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .button[href*="user"]:before {
-  mask: url("/img/long-arrow-alt-right-solid.svg");
+  mask: url("/img/play-circle-solid.svg");
   mask-size: cover;
   display: inline-block;
   content: '';
   background-color: white;
-  width: 0.875rem;
+  width: 1.0rem;
   height: 1rem;
-  margin-top: 0.45rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.button[href*="dev"] {
+  display: flex;
+}
+
+.button[href*="dev"]:before {
+  mask: url("/img/tools-solid.svg");
+  mask-size: cover;
+  display: inline-block;
+  content: '';
+  background-color: white;
+  width: 1.0rem;
+  height: 1rem;
+  margin-top: 0.5rem;
   margin-right: 0.5rem;
 }
 
 html[data-theme="dark"] .button[href*="user"]:before {
+  background-color: black;
+}
+
+html[data-theme="dark"] .button[href*="dev"]:before {
   background-color: black;
 }
 

@@ -22,7 +22,7 @@ function Home() {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="FlowTorch is a library for representing probability distributions.">
+      description="FlowTorch is a library for representing complex or high-dimensional probability distributions.">
       <Hero />
       <main>
           <Features />

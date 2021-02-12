@@ -1,6 +1,6 @@
 module.exports = {
   title: 'FlowTorch',
-  tagline: 'Flexible high-dimensional probability distributions',
+  tagline: 'Easily <b>learn</b> and sample complex probability distributions with PyTorch',
   url: 'https://flowtorch.ai',
   baseUrl: '/',
   onBrokenLinks: 'throw',

@@ -42,8 +42,8 @@ for idx in range(501):
         #plt.title("Learning Neal's Funnel")
         plt.xlabel('$x_1$')
         plt.ylabel('$x_2$')
-        plt.legend(loc='lower right')
-        plt.savefig(f'bivariate-normal-frame-{frame}.svg', bbox_inches='tight')
+        plt.legend(loc='lower right', facecolor=(1, 1, 1, 1.0))
+        plt.savefig(f'bivariate-normal-frame-{frame}.svg', bbox_inches='tight', transparent=True)
         frame += 1
 
 
