@@ -17,7 +17,7 @@ function Hero() {
             
           <h1 className="hero__subtitle">
             <img className="hero__img" src="img/logo.svg" />
-            Easily <b>learn</b> and <b>sample</b> complex probability distributions with PyTorch
+            Easily <b>learn</b> and <b>sample</b> complex <b>probability distributions</b> with PyTorch
           </h1>
 
           </div>

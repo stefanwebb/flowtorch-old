@@ -2,12 +2,15 @@
   border-top: 1px solid var(--ifm-color-emphasis-300);
 }*/
 
-.examples {
+/*.examples {
   margin-bottom: 3rem;
-}
+}*/
 
 .animation_svg {
-  margin-top: 11rem;
+  margin: auto;
+  padding-top: 8rem;
+  width: 30rem;
+  height: 38rem;
 }
 
 .animation > * { 
@@ -16,6 +19,8 @@
   animation-iteration-count: infinite; 
   animation-timing-function: steps(1);
 }
+
+.container {   display: flex;   justify-content: center; height: 721px;}
 
 @keyframes animation-1 { 
   0% { 

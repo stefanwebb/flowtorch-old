@@ -18,7 +18,7 @@
   --ifm-color-primary-lightest: #ffb4a5;
   --ifm-card-background-color: var(--ifm-background-color);
   --ifm-footer-background-color: var(--ifm-background-surface-color);
-  --ifm-hero-background-color: rgb(43, 49, 55);
+  --ifm-hero-background-color: rgb(30, 30, 40); /* rgb(43, 49, 55);*/
   --ifm-hero-text-color: white;
   --ifm-navbar-background-color: white;
   --color-button-primary: rgb(255, 99, 68);
@@ -54,7 +54,8 @@ html[data-theme="dark"] svg {
 }
 
 .hero__subtitle b {
-  color: var(--ifm-color-primary);
+  color: #ffb4a5;
+  text-shadow: 1px 1px 2px var(--ifm-hero-background-color), 0 0 25px #ff6344, 0 0 5px #ff3b14;
 }
 
 .hero__github_button {

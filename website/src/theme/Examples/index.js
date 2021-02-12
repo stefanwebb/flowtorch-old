@@ -39,16 +39,18 @@ function Examples() {
                 {renderTabs()}
               </div>
               <div className="col col--6">
-              <svg className={styles.animation_svg} width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg">
+              <div className={styles.container}>
+              <svg className={styles.animation_svg} xmlns="http://www.w3.org/2000/svg">
               <g className={styles.animation}>
-              <image width="100%" href="img/bivariate-normal-frame-0.svg" />
-              <image width="100%" href="img/bivariate-normal-frame-1.svg" />
-              <image width="100%" href="img/bivariate-normal-frame-2.svg" />
-              <image width="100%" href="img/bivariate-normal-frame-3.svg" />
-              <image width="100%" href="img/bivariate-normal-frame-4.svg" />
-              <image width="100%" href="img/bivariate-normal-frame-5.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-0.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-1.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-2.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-3.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-4.svg" />
+              <image height="30rem" height="30rem" href="img/bivariate-normal-frame-5.svg" />
               </g>
               </svg>
+              </div>
               </div>
             </div>
           </div>
