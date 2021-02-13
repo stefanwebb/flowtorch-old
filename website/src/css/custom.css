@@ -25,6 +25,7 @@
   --color-button-primary-hover: rgb(255, 81, 46);
   --color-button-secondary: rgb(255, 186, 0);
   --color-button-secondary-hover: rgb(233, 169, 0);
+  --ifm-footer-link-hover-color: var(--ifm-navbar-link-hover-color)
 }
 
 div[class^='announcementBarContent'] {
@@ -407,8 +408,8 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   width: 1.25rem;
   height: 1rem;
   margin-top: 0.5rem;
-  margin-right: 0.6875rem;
-  margin-left: 0.1875rem;
+  margin-right: 0.5rem;
+  /*margin-left: 0.1875rem;*/
 }
 
 .footer__link-item[href*="code-of-conduct/"] {
@@ -424,8 +425,8 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   width: 1.25rem;
   height: 1rem;
   margin-top: 0.5rem;
-  margin-right: 0.6875rem;
-  margin-left: 0.1875rem;
+  margin-right: 0.5rem;
+  /*margin-left: 0.1875rem;*/
 }
 
 .button[href*="user"] {
