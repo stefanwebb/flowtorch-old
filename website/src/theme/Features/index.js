@@ -36,7 +36,7 @@ const data = [
   },
   {
     icon: <FaIndustry size={size} />,
-    title: <>Production-ready</>,
+    title: <>Production ready</>,
     description: (
       <>
         Tried and proven code with rigorous unit testing, continuous integration, and other best practices. And it is easy to add standard unit tests to components you write yourself!
