@@ -8,7 +8,7 @@ module.exports = {
   devsSidebar: {
     "General": ['dev/why', 'dev/contributing', 'dev/code_of_conduct', 'dev/about'],
     "Extending the Library": ['dev/overview', 'dev/docs', 'dev/tests', 'dev/bijector', 'dev/param'],
-    "Literature Survey": ['dev/prior', 'dev/libraries', 'dev/methodology', 'dev/applications'],
+    "Bibliography": ['dev/prior', 'dev/surveys', 'dev/libraries', 'dev/methodology', 'dev/applications'],
   },
   apiSidebar: {
     "Python API": ['api/flowtorch', 'api/bijectors', 'api/distributions', 'api/params', 'api/utils'],

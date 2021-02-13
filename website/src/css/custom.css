@@ -18,8 +18,8 @@
   --ifm-color-primary-lightest: #ffb4a5;
   --ifm-card-background-color: var(--ifm-background-color);
   --ifm-footer-background-color: var(--ifm-background-surface-color);
-  --ifm-hero-background-color: rgb(30, 30, 40); /* rgb(43, 49, 55);*/
-  --ifm-hero-text-color: white;
+  --ifm-hero-background-color: rgb(36, 37, 38); /*var(--ifm-background-surface-color); /* rgb(43, 49, 55);*/
+  --ifm-hero-text-color: white; /* rgb(68, 73, 80);*/
   --ifm-navbar-background-color: white;
   --color-button-primary: rgb(255, 99, 68);
   --color-button-primary-hover: rgb(255, 81, 46);
@@ -44,18 +44,19 @@ html[data-theme="dark"] {
   --ifm-hero-text-color: white;
 }
 
-html[data-theme="dark"] svg {
-  filter: invert(100%);
-}
-
 .hero__subtitle {
   font-size: 3.75rem;
   text-align: left;
 }
 
-.hero__subtitle b {
-  color: #ffb4a5;
-  text-shadow: 1px 1px 2px var(--ifm-hero-background-color), 0 0 25px #ff6344, 0 0 5px #ff3b14;
+.hero__subtitle .hero__primary {
+  color:var(--color-button-primary);
+  text-shadow: 1px 1px 2px var(--color-button-primary-hover);
+}
+
+.hero__subtitle .hero__secondary {
+  color: var(--color-button-secondary);
+  text-shadow: 1px 1px 2px var(--color-button-secondary-hover);
 }
 
 .hero__github_button {
@@ -82,12 +83,17 @@ html[data-theme="dark"] .hero__buttons .button--primary:hover {
   border-color: var(--color-button-primary-hover);
 }
 
+#features .col {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .hero__img {
   float: right;
-  max-width: 175px;
+  max-width: 200px;
   padding-left: 40px;
-  padding-right: 40px;
-  padding-top: 30px;
+  padding-right: 6rem;
+  padding-top: 1.1rem;
 }
 
 .hero__buttons {
@@ -142,6 +148,23 @@ a {
   margin-right: 0.5rem;
 }
 
+.navbar__title:hover {
+  /*color: red;*/
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+
 html[data-theme="dark"] .navbar__item.navbar__link[href*="users"]:before {
   background-color: white;
 }
@@ -159,12 +182,12 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="users"]:hover:before {
   padding: 0px 12px;
 }
 .navbar__item.navbar__link[href*="dev"]:before {
-  mask: url("/img/terminal-solid.svg");
+  mask: url("/img/hat-wizard-solid.svg");
   mask-size: cover;
   display: inline-block;
   content: '';
   background-color: black;
-  width: 1.25rem;
+  width: 1rem;
   height: 1rem;
   margin-top: 0.3rem;
   margin-right: 0.5rem;
@@ -195,7 +218,7 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="dev"]:hover:before {
   width: 0.875rem;
   height: 1rem;
   margin-top: 0.3rem;
-  margin-right: 0.5rem;  
+  margin-right: 0.5rem;
 }
 
 .navbar__item.navbar__link[href*="api"]:hover:before {
@@ -208,6 +231,31 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:before {
 
 html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   background-color: var(--ifm-navbar-link-hover-color);
+}
+
+.footer__link-item:before {
+  opacity:0;
+}
+
+.footer__link-item:hover:before {
+  opacity:1;
+}
+
+.footer__link-item:hover:before {
+  animation: fadeIn ease 0.25s;
+  -webkit-animation: fadeIn ease 0.25s;
+  -moz-animation: fadeIn ease 0.25s;
+  -o-animation: fadeIn ease 0.25s;
+  -ms-animation: fadeIn ease 0.25s;
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+.footer__link-item {
+  margin-left: -1.75rem;
 }
 
 .footer__link-item[href*="api"] {
@@ -233,15 +281,16 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
 }
 
 .footer__link-item[href*="dev"]:before {
-  mask: url("/img/terminal-solid.svg");
+  mask: url("/img/hat-wizard-solid.svg");
   mask-size: cover;
   display: inline-block;
   content: '';
   background-color: white;
-  width: 1.25rem;
+  width: 1rem;
   height: 1rem;
   margin-top: 0.5rem;
-  margin-right: 0.5rem;  
+  margin-left: 0.125rem;
+  margin-right: 0.625rem;  
 }
 
 .footer__link-item[href*="users"] {
@@ -291,7 +340,7 @@ html[data-theme="dark"] .navbar__item.navbar__link[href*="api"]:hover:before {
   width: 0.75rem;
   height: 1rem;
   margin-top: 0.5rem;
-  margin-right: 0.6875rem;
+  margin-right: 0.875rem;
   margin-left: 0.1875rem;
 }
 

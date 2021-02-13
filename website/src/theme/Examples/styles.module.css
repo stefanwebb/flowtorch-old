@@ -2,9 +2,9 @@
   border-top: 1px solid var(--ifm-color-emphasis-300);
 }*/
 
-/*.examples {
-  margin-bottom: 3rem;
-}*/
+.examples {
+  margin-bottom: 3.5rem;
+}
 
 .animation_svg {
   margin: auto;
@@ -20,7 +20,11 @@
   animation-timing-function: steps(1);
 }
 
-.container {   display: flex;   justify-content: center; height: 721px;}
+.example_container {   display: flex;   justify-content: center; height: 721px;}
+
+html[data-theme="dark"] .example_container svg {
+  filter: invert(100%);
+}
 
 @keyframes animation-1 { 
   0% { 

@@ -1,48 +1,45 @@
 import React from "react";
 import clsx from "clsx";
-import { FiCoffee, FiDatabase, FiPackage, FiZap } from "react-icons/fi";
+import { FaMeteor, FaDumbbell, FaHandsHelping, FaCubes, FaIndustry } from "react-icons/fa";
 
 import styles from "./styles.module.css";
 
 const size = 24;
 const data = [
   {
-    icon: <FiPackage size={size} />,
-    title: <>Dead simple, but powerful</>,
+    icon: <FaMeteor size={size} />,
+    title: <>Simple but powerful</>,
     description: (
       <>
-        Oxidizer is a Rust ORM based on tokio-postgres and refinery. Two
-        powerful libraries that give performance and reliability to perform
-        database interactions.
+        Design, train, and sample from complex probability distributions using only a few lines of code. Yet FlowTorch is feature rich with a wide selection of state-of-the-art methods and abstractions like conditionality and caching.
       </>
     ),
   },
   {
-    icon: <FiZap size={size} />,
-    title: <>Asynchronous from the ground up</>,
+    icon: <FaHandsHelping size={size} />,
+    title: <>Community focused</>,
     description: (
       <>
-        By using tokio and tokio-postgres, all the database operations are
-        efficiently handled by tokio at runtime.
+        We help you be a successful user or contributor through detailed user, developer, and API guides. Educational tutorials and research benchmarks are planned for the future. We welcome your feedback!
       </>
     ),
   },
   {
-    icon: <FiDatabase size={size} />,
-    title: <>Relations</>,
+    icon: <FaCubes size={size} />,
+    title: <>Modular and extendable</>,
     description: (
       <>
-        Oxidizer macros generate code to access forward and reverse relations
-        between entities with ease.
+        Combine multiple bijections to form complex normalizing flows, and mix-and-match conditioning networks with bijections.
+        FlowTorch has a well-defined interface for bijections and conditioning networks so you easily create your own!
       </>
     ),
   },
   {
-    icon: <FiCoffee size={size} />,
-    title: <>Productive and Extensible</>,
+    icon: <FaIndustry size={size} />,
+    title: <>Production-ready</>,
     description: (
       <>
-        Write reusable code and think in terms of your problem domain, not SQL.
+        Tried and proven code with rigorous unit testing, continuous integration, and other best practices. And it is easy to add standard unit tests to components you write yourself!
       </>
     ),
   },
@@ -69,7 +66,7 @@ function Features() {
         <section id="features" className={styles.features}>
           <div className="container">
             <div className="row">
-              <div className="col col--11 col--offset-1">
+              <div className="col col--12">
                 <div className="row">
                   {data.map((props, idx) => (
                     <Feature key={idx} {...props} />

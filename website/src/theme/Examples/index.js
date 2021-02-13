@@ -39,7 +39,7 @@ function Examples() {
                 {renderTabs()}
               </div>
               <div className="col col--6">
-              <div className={styles.container}>
+              <div className={styles.example_container}>
               <svg className={styles.animation_svg} xmlns="http://www.w3.org/2000/svg">
               <g className={styles.animation}>
               <image height="30rem" height="30rem" href="img/bivariate-normal-frame-0.svg" />

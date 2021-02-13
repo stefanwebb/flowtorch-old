@@ -2,14 +2,16 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding-bottom: 3rem !important;
+  padding-bottom: 1rem !important;
+  padding-top: 6rem;
+  background-color: --var(--ifm-background-color);
 }
 
-.features.feature.p {
+.features .feature p {
       margin-bottom: 0;
 }
 
-.features.feature :not(:last-child) {
+.features .feature:not(:last-child) {
       margin-bottom: 3rem;
 }
 
@@ -18,21 +20,21 @@
       padding-right: 5rem;
     }*/
 
-.features.feature.header {
+.features .feature .header {
       display: flex;
       flex-direction: row;
       align-items: center;
       margin-bottom: 1rem;
 }
 
-.features.feature.header.icon {
+.features .feature .header .icon {
         display: flex;
         align-items: center;
         margin-right: 1rem;
         color: var(--ifm-color-primary);
 }
 
-.features.feature.header.title {
+.features .feature .header .title {
         font-size: 1.25rem;
         margin-bottom: 0;
 }
