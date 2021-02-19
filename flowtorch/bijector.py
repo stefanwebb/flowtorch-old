@@ -59,10 +59,8 @@ class Bijector(object):
         self,
         x: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: Optional[torch.Tensor] = None,
+        context: torch.Tensor,
     ) -> torch.Tensor:
-        if context is None:
-            context = torch.zeros(0)
         assert context.shape == (self._context_size,)
         return self._forward(x, params, context)
 
@@ -81,10 +79,8 @@ class Bijector(object):
         self,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: Optional[torch.Tensor] = None,
+        context: torch.Tensor,
     ) -> torch.Tensor:
-        if context is None:
-            context = torch.zeros(0)
         assert context.shape == (self._context_size,)
         return self._inverse(y, params, context)
 

@@ -71,7 +71,7 @@ class Compose(flowtorch.Bijector):
         assert len(params) == len(self.bijectors)
 
         for bijector, param in zip(reversed(self.bijectors), reversed(params)):
-            y = bijector.inverse(y, param, context=None)
+            y = bijector.inverse(y, param, context)
 
         return y
 

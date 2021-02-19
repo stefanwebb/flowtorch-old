@@ -293,7 +293,7 @@ class DenseAutoregressive(flowtorch.Params):
         # TODO: Flatten x. This will fail when len(input_shape) > 0
         # TODO: Get this working again when using skip_layers!
         # NOTE: this assumes x is a 2-tensor (batch_size, event_size)
-        h = torch.cat([x, context.expand((x.shape[0], -1))], dim=-1)
+        h = torch.cat([context.expand((x.shape[0], -1)), x], dim=-1)
 
         for idx in range(len(modules) // 2):
             h = modules[2 * idx + 1](modules[2 * idx](h))
