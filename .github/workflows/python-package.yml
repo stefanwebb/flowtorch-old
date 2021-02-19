@@ -44,7 +44,7 @@ jobs:
         mypy flowtorch
     - name: Test with pytest
       run: |
-        pytest --cov=tests --cov-report=xml -W ignore::DeprecationWarning
+        pytest --cov=tests --cov-report=xml -W ignore::DeprecationWarning tests/
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
