@@ -64,16 +64,16 @@ class TransformedDistribution(dist.Distribution):
         x = self.bijector.forward(x, self.params())
         return x
 
-    def log_prob(self, y: torch.Tensor) -> torch.Tensor:
+    def log_prob(self, y: torch.Tensor, context: torch.Tensor) -> torch.Tensor:
         """
         Scores the sample by inverting the transform(s) and computing the score
         using the score of the base distribution and the log abs det jacobian.
         """
         event_dim = len(self.event_shape)
 
-        x = self.bijector.inverse(y, self.params())
+        x = self.bijector.inverse(y, self.params(), context)
         log_prob = -_sum_rightmost(
-            self.bijector.log_abs_det_jacobian(x, y, self.params()),
+            self.bijector.log_abs_det_jacobian(x, y, self.params(), context),
             event_dim - self.bijector.event_dim,
         )
         log_prob = log_prob + _sum_rightmost(

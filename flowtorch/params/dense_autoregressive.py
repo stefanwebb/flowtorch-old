@@ -132,7 +132,7 @@ class DenseAutoregressive(flowtorch.Params):
         permutation: Optional[torch.LongTensor] = None,
         skip_connections: bool = False,
     ) -> None:
-        super(DenseAutoregressive, self).__init__()
+        super().__init__()
         self.hidden_dims = hidden_dims
         self.nonlinearity = nonlinearity
         self.permutation = permutation
@@ -143,9 +143,10 @@ class DenseAutoregressive(flowtorch.Params):
         self,
         input_shape: torch.Size,
         param_shapes: Sequence[torch.Size],
+        context_dims: int,
     ) -> Tuple[nn.ModuleList, Dict[str, Any]]:
         # TODO: Implement conditional version!
-        self.context_dims = int(0)
+        self.context_dims = context_dims
 
         # Work out flattened input and output shapes
         param_shapes_ = list(param_shapes)
@@ -278,11 +279,11 @@ class DenseAutoregressive(flowtorch.Params):
         modules: Optional[nn.ModuleList] = None,
     ) -> Sequence[torch.Tensor]:
         # Required for type checking to pass!
-        assert (
-            isinstance(x, torch.Tensor)
-            and context is None
-            and isinstance(modules, nn.ModuleList)
-        )
+        # assert (
+        #     isinstance(x, torch.Tensor)
+        #     and context is None
+        #     and isinstance(modules, nn.ModuleList)
+        # )
 
         # DEBUG: Disabled context
         # We must be able to broadcast the size of the context over the input
@@ -291,7 +292,8 @@ class DenseAutoregressive(flowtorch.Params):
 
         # TODO: Flatten x. This will fail when len(input_shape) > 0
         # TODO: Get this working again when using skip_layers!
-        h = x
+        # NOTE: this assumes x is a 2-tensor (batch_size, event_size)
+        h = torch.cat([x, context.expand((x.shape[0], -1))], dim=-1)
 
         for idx in range(len(modules) // 2):
             h = modules[2 * idx + 1](modules[2 * idx](h))
