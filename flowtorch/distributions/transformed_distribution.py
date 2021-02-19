@@ -23,6 +23,7 @@ class TransformedDistribution(dist.Distribution):
         validate_args: Any = None,
     ) -> None:
         self.base_dist = base_distribution
+        self._context = None
 
         self.params = weakref.ref(params)
         self.bijector = bijector
@@ -32,6 +33,10 @@ class TransformedDistribution(dist.Distribution):
         batch_shape = shape[: len(shape) - event_dim]
         event_shape = shape[len(shape) - event_dim :]
         super().__init__(batch_shape, event_shape, validate_args=validate_args)
+
+    def condition(self, context):
+        self._context = context
+        return self
 
     def sample(
         self,
@@ -44,6 +49,8 @@ class TransformedDistribution(dist.Distribution):
         base distribution and applies `transform()` for every transform in the
         list.
         """
+        if context is None:
+            context = self._context
         with torch.no_grad():
             x = self.base_dist.sample(sample_shape)
             x = self.bijector.forward(x, self.params(), context)
@@ -60,15 +67,21 @@ class TransformedDistribution(dist.Distribution):
         are batched. Samples first from base distribution and applies
         `transform()` for every transform in the list.
         """
+        if context is None:
+            context = self._context
         x = self.base_dist.rsample(sample_shape)
         x = self.bijector.forward(x, self.params(), context)
         return x
 
-    def log_prob(self, y: torch.Tensor, context: torch.Tensor) -> torch.Tensor:
+    def log_prob(
+        self, y: torch.Tensor, context: Optional[torch.Tensor] = None
+    ) -> torch.Tensor:
         """
         Scores the sample by inverting the transform(s) and computing the score
         using the score of the base distribution and the log abs det jacobian.
         """
+        if context is None:
+            context = self._context
         event_dim = len(self.event_shape)
 
         x = self.bijector.inverse(y, self.params(), context)
