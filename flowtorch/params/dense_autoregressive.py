@@ -274,22 +274,10 @@ class DenseAutoregressive(flowtorch.Params):
 
     def _forward(
         self,
-        x: Optional[torch.Tensor] = None,
-        context: Optional[torch.Tensor] = None,
-        modules: Optional[nn.ModuleList] = None,
+        x: torch.Tensor,
+        context: torch.Tensor,
+        modules: nn.ModuleList,
     ) -> Sequence[torch.Tensor]:
-        # Required for type checking to pass!
-        # assert (
-        #     isinstance(x, torch.Tensor)
-        #     and context is None
-        #     and isinstance(modules, nn.ModuleList)
-        # )
-
-        # DEBUG: Disabled context
-        # We must be able to broadcast the size of the context over the input
-        # if context is None:
-        #    context = self.context
-
         # TODO: Flatten x. This will fail when len(input_shape) > 0
         # TODO: Get this working again when using skip_layers!
         # NOTE: this assumes x is a 2-tensor (batch_size, event_size)

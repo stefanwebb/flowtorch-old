@@ -14,10 +14,11 @@ import flowtorch.distributions
 class Bijector(object):
     _inv: Optional[Union[weakref.ReferenceType, "Bijector"]]
     _context_size: int
+    event_dim: int = 0
 
     # Metadata about (the default) bijector
-    domain = constraints.real
-    codomain = constraints.real
+    domain: constraints.Constraint = constraints.real
+    codomain: constraints.Constraint = constraints.real
     identity_initialization = True
     autoregressive = False
 

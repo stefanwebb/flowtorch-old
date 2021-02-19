@@ -77,14 +77,18 @@ class Params(object):
         context: Optional[torch.Tensor] = None,
         modules: Optional[nn.ModuleList] = None,
     ) -> Optional[Sequence[torch.Tensor]]:
+        if context is None:
+            context = torch.empty(0)
+        if modules is None:
+            modules = nn.ModuleList()
         return self._forward(x, context=context, modules=modules)
 
     def _forward(
         self,
         x: torch.Tensor,
-        context: Optional[torch.Tensor] = None,
-        modules: Optional[nn.ModuleList] = None,
-    ) -> Optional[Sequence[torch.Tensor]]:
+        context: torch.Tensor,
+        modules: nn.ModuleList,
+    ) -> Sequence[torch.Tensor]:
         """
         Abstract method to ***
         """
