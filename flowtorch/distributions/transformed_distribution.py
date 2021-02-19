@@ -23,7 +23,7 @@ class TransformedDistribution(dist.Distribution):
         validate_args: Any = None,
     ) -> None:
         self.base_dist = base_distribution
-        self._context = None
+        self._context = torch.empty(0)
 
         self.params = weakref.ref(params)
         self.bijector = bijector
