@@ -61,7 +61,7 @@ class Bijector(object):
         params: Optional["flowtorch.ParamsModule"],
         context: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
-        if not context:
+        if context is None:
             context = torch.zeros(0)
         assert context.shape == (self._context_size,)
         return self._forward(x, params, context)
@@ -165,6 +165,7 @@ class _InverseBijector(Bijector):
         self.domain = bijector.codomain
         self.codomain = bijector.domain
         self.event_dim = bijector.event_dim
+        self._context_size = bijector._context_size
 
     @property
     def inv(self):

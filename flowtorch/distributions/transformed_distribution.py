@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import weakref
-from typing import Any
+from typing import Any, Optional
 
 import torch
 import torch.distributions as dist
@@ -31,13 +31,12 @@ class TransformedDistribution(dist.Distribution):
         event_dim = max(len(self.base_dist.event_shape), self.bijector.event_dim)
         batch_shape = shape[: len(shape) - event_dim]
         event_shape = shape[len(shape) - event_dim :]
-        super(TransformedDistribution, self).__init__(
-            batch_shape, event_shape, validate_args=validate_args
-        )
+        super().__init__(batch_shape, event_shape, validate_args=validate_args)
 
     def sample(
         self,
         sample_shape: torch.Size = default_sample_shape,
+        context: Optional[torch.Tensor] = None,
     ) -> Tensor:
         """
         Generates a sample_shape shaped sample or sample_shape shaped batch of
@@ -47,12 +46,13 @@ class TransformedDistribution(dist.Distribution):
         """
         with torch.no_grad():
             x = self.base_dist.sample(sample_shape)
-            x = self.bijector.forward(x, self.params())
+            x = self.bijector.forward(x, self.params(), context)
             return x
 
     def rsample(
         self,
         sample_shape: torch.Size = default_sample_shape,
+        context: Optional[torch.Tensor] = None,
     ) -> Tensor:
         """
         Generates a sample_shape shaped reparameterized sample or sample_shape
@@ -61,7 +61,7 @@ class TransformedDistribution(dist.Distribution):
         `transform()` for every transform in the list.
         """
         x = self.base_dist.rsample(sample_shape)
-        x = self.bijector.forward(x, self.params())
+        x = self.bijector.forward(x, self.params(), context)
         return x
 
     def log_prob(self, y: torch.Tensor, context: torch.Tensor) -> torch.Tensor:
