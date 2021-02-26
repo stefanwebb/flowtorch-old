@@ -18,7 +18,7 @@ class Compose(flowtorch.Bijector):
     event_dim = 1
     bijectors: Sequence[flowtorch.Bijector]
 
-    def __init__(self, bijectors):
+    def __init__(self, bijectors, context_size=0):
         super().__init__(self.param_fn)
         self.bijectors = bijectors
         self.event_dim = max([b.event_dim for b in self.bijectors])
@@ -26,11 +26,13 @@ class Compose(flowtorch.Bijector):
         # TODO: Adjust domain accordingly and check domain/codomain compatibility!
         self.domain = constraints.real_vector
         self.codomain = constraints.real_vector
+        self._inv = None
 
         self.identity_initialization = all(
             [b.identity_initialization for b in self.bijectors]
         )
         self.autoregressive = all([b.autoregressive for b in self.bijectors])
+        self._context_size = context_size
 
     def __call__(self, x):
         """
@@ -44,7 +46,7 @@ class Compose(flowtorch.Bijector):
             # call from simple.bijectors.*.__init__
             input_shape = x.batch_shape + x.event_shape
             params = self.param_fn(
-                input_shape, self.param_shapes(x)
+                input_shape, self.param_shapes(x), self._context_size
             )  # <= this is where hypernets etc. are instantiated
             new_dist = flowtorch.distributions.TransformedDistribution(x, self, params)
             return new_dist, params
@@ -53,33 +55,33 @@ class Compose(flowtorch.Bijector):
         else:
             raise TypeError(f"Bijector called with invalid type: {type(x)}")
 
-    def param_fn(self, input_shape, param_shapes):
+    def param_fn(self, input_shape, param_shapes, context_size):
         return flowtorch.param.ParamsModuleList(
             [
-                b.param_fn(input_shape, pshape)
+                b.param_fn(input_shape, pshape, context_size)
                 for b, pshape in zip(self.bijectors, param_shapes)
             ]
         )
 
     # NOTE: We overwrite forward rather than _forward so that the composed
     # bijectors can handle the caching separately!
-    def forward(self, x, params=None):
+    def forward(self, x, params=None, context=None):
         assert len(params) == len(self.bijectors)
 
         for bijector, param in zip(self.bijectors, params):
-            x = bijector.forward(x, param)
+            x = bijector.forward(x, param, context)
 
         return x
 
-    def inverse(self, y, params=None):
+    def inverse(self, y, params=None, context=None):
         assert len(params) == len(self.bijectors)
 
         for bijector, param in zip(reversed(self.bijectors), reversed(params)):
-            y = bijector.inverse(y, param)
+            y = bijector.inverse(y, param, context)
 
         return y
 
-    def log_abs_det_jacobian(self, x, y, params=None):
+    def log_abs_det_jacobian(self, x, y, params=None, context=None):
         """
         Computes the log det jacobian `log |dy/dx|` given input and output.
         By default, assumes a volume preserving bijection.
@@ -89,8 +91,8 @@ class Compose(flowtorch.Bijector):
             self.event_dim,
         )
         for bijector, param in zip(reversed(self.bijectors), reversed(params)):
-            y_inv = bijector.inverse(y, param)
-            ldj += bijector.log_abs_det_jacobian(y_inv, y, param)
+            y_inv = bijector.inverse(y, param, context)
+            ldj += bijector.log_abs_det_jacobian(y_inv, y, param, context)
             y = y_inv
         return ldj
 
@@ -103,6 +105,6 @@ class Compose(flowtorch.Bijector):
         p_shapes = []
 
         for b in self.bijectors:
-            p_shapes.append(b.param_shapes(dist))  # TODO: fix None
+            p_shapes.append(b.param_shapes(dist=None))  # TODO: fix None
 
         return p_shapes
