@@ -2,6 +2,7 @@
 id: contributing
 title: Help Wanted!
 sidebar_label: Help Wanted!
+slug: /dev
 ---
 
 We are looking for independent collaborators to:

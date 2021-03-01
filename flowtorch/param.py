@@ -17,9 +17,9 @@ class ParamsModuleList(torch.nn.Module):
         self.params_modules = nn.ModuleList(params_modules)
 
     def forward(
-        self, x: torch.Tensor, context: Optional[torch.Tensor] = None
+        self, x: torch.Tensor
     ) -> Sequence[Optional[Sequence[torch.Tensor]]]:
-        return [p.forward(x, context=context) for p in self.params_modules]
+        return [p.forward(x) for p in self.params_modules]
 
     def __iter__(self):
         return iter(self.params_modules)
@@ -52,7 +52,7 @@ class ParamsModule(torch.nn.Module):
     def forward(
         self, x: torch.Tensor, context: Optional[torch.Tensor] = None
     ) -> Optional[Sequence[torch.Tensor]]:
-        return self.params.forward(x, modules=self.mods, context=context)
+        return self.params.forward(x, modules=self.mods)
 
 
 class Params(object):
@@ -66,27 +66,22 @@ class Params(object):
     def __call__(
         self,
         input_shape: torch.Size,
-        param_shapes: Sequence[torch.Size],
-        context_dims: int,
+        param_shapes: Sequence[torch.Size]
     ) -> ParamsModule:
-        return ParamsModule(self, *self.build(input_shape, param_shapes, context_dims))
+        return ParamsModule(self, *self.build(input_shape, param_shapes))
 
     def forward(
         self,
         x: torch.Tensor,
-        context: Optional[torch.Tensor] = None,
         modules: Optional[nn.ModuleList] = None,
     ) -> Optional[Sequence[torch.Tensor]]:
-        if context is None:
-            context = torch.empty(0)
         if modules is None:
             modules = nn.ModuleList()
-        return self._forward(x, context=context, modules=modules)
+        return self._forward(x, modules=modules)
 
     def _forward(
         self,
         x: torch.Tensor,
-        context: torch.Tensor,
         modules: nn.ModuleList,
     ) -> Sequence[torch.Tensor]:
         """
@@ -98,17 +93,15 @@ class Params(object):
         self,
         input_shape: torch.Size,
         param_shapes: Sequence[torch.Size],
-        context_dims: int,
     ) -> Tuple[nn.ModuleList, Dict[str, torch.Tensor]]:
         self.input_shape = input_shape
         self.param_shapes = param_shapes
-        return self._build(input_shape, param_shapes, context_dims)
+        return self._build(input_shape, param_shapes)
 
     def _build(
         self,
         input_shape: torch.Size,
-        param_shapes: Sequence[torch.Size],
-        context_dims: int,
+        param_shapes: Sequence[torch.Size]
     ) -> Tuple[nn.ModuleList, Dict[str, torch.Tensor]]:
         """
         Abstract method to ***
