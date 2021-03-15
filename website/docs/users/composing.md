@@ -3,6 +3,11 @@ id: composing
 title: Composing Bijectors
 sidebar_label: Composing Bijectors
 ---
+:::caution
+
+This document is under construction!
+
+:::
 
 There are several ways to compose `Bijector`s to form new ones.
 

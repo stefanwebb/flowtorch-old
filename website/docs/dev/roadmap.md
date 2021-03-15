@@ -43,6 +43,7 @@ This page lists the scope of upcoming releases. A more detailed list of planned 
 * Add [Google Analytics](https://analytics.google.com/)
 * Automate updating website with [GitHub Actions](https://github.com/features/actions)
 * Create and link to [Colab](https://colab.research.google.com/) for all examples
+* Maintain mailing list and list of interested GitHub users for releases 
 
 :::info
 After the `v0.3`, I would like to initiate a wider review of the FlowTorch API and a discussion of where the most productive place to focus our efforts is (for example, writing application-base tutorials, implementing training benchmarks, doing normalizing flow research, and so on).
