@@ -93,7 +93,7 @@ module.exports = {
             },
             {
               label: 'Roadmap',
-              href: 'https://github.com/stefanwebb/flowtorch/projects',
+              to: 'dev/roadmap',
             },
           ],
         },

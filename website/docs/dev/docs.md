@@ -9,7 +9,3 @@ sidebar_label: Docs
 This document is under construction!
 
 :::
-
-You can extend the library to add your own bijections for ...
-
----

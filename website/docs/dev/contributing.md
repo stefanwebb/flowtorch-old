@@ -6,17 +6,21 @@ slug: /dev
 ---
 ## Call for Contributions
 We are looking for independent collaborators to:
-* add new bijections (normalizing flow transforms) and conditioning networks;
-* discover and fix bugs; and,
+* add new [bijections](/dev/bijector) (i.e., normalizing flow transforms) and [conditioning networks](/dev/params);
+* [discover and fix bugs](https://github.com/stefanwebb/flowtorch/issues/new/choose); and,
 * write tutorials on applications of Normalizing Flow methodology.
 
-The core developers are able to help smooth the process of making a contribution.
+The [Core Developers](/dev/about) are able to help smooth [the process of making a contribution](/dev/overview).
 
 :::info
-Please contact us in [the forum](https://github.com/stefanwebb/flowtorch/discussions) if you are interested in becoming a contributor and tag your discussion with ":bulb: Ideas" - the process is outlined [here](overview).
+Please contact us in [the forum](https://github.com/stefanwebb/flowtorch/discussions) if you are interested in becoming an independent contributor and tag your discussion with ":bulb: Ideas" - the process is outlined [here](/dev/overview).
 :::
 
 ## Why Contribute?
+Why would you freely give up your labour and contribute to an open-source project? Firstly, contributing to an open-source project is excellent for one's professional development as a software engineer.
+
+We discuss some reasons below (see [here](https://opensource.guide/how-to-contribute/) for a more detailed essay on the philosophy of open-source).
+
 ### Professional development
 [TODO!]
 
