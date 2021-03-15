@@ -7,7 +7,7 @@ This page lists the scope of upcoming releases. A more detailed list of planned 
 
 ## `v0.1`
 ### Library
-* Representative `Bijector`s: `Affine`, `AffineAutoregressive`, `Radial`, `Sigmoid`
+* Representative `Bijector`s: `Affine`, `AffineAutoregressive`, `Exp`, `Radial`, `Sigmoid`
 * Basic `Params`: `Constant`, `Dense`, `DenseAutoregressive`, `None`
 * Composing `Bijector`s: `Cat`, `Compose`, `Reshape`, `Stack`
 * Conditional distributions

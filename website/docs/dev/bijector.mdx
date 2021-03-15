@@ -28,7 +28,7 @@ Further metadata about a bijector is defined in these properties:
 
 Again, this metadata can be represented by *class properties* and *instance properties* depending on the context. For instance, a bijector may not be volume preserving by default and have a special volume preserving version that is enabled by a flag passed to `__init__`.
 
-:::note
+:::info
 Further metadata fields may be defined in the future. However, developers are not permitted to define their own without adding a default value to [`flowtorch.Bijector`](https://github.com/stefanwebb/flowtorch/blob/master/flowtorch/bijector.py).
 :::
 
@@ -55,9 +55,18 @@ If this method is undefined, it will default to a tensor of zeros, that is, the 
 #### `.inverse_shape(self, event_shape)`
 `.forward_shape` defines the event shape of $y=f(x)$ given the event shape of $x$. Similarly, `.inverse_shape` defines the event shape of $x=f^{-1}(y)$ given the event shape of $y$. These methods provide additional flexibility for defining bijectors, although in most cases will be left undefined in the derived class so that the default of the identity function is used. One example of where these methods differ from the identity is in [flowtorch.Reshape](/users/composing).
 
-:::note
+:::info
 It must be the case that `len(event_shape) == self.domain.event_dim` for `.forward_shape` and `len(event_shape) == self.codomain.event_dim` for `.inverse_shape`. Likewise, the outputs of these two methods must match the corresponding `event_dim`.
 :::
 
 #### `.params_shape(self, event_shape)`
-???
+This method defines the shapes of the parameters for a given event shape. It returns a tuple of shapes of type `torch.Size()`. For instance, if there are two separate scalar parameters for each event dimension, we could implement this method as:
+
+```python
+  def params_shape(self, event_shape:torch.Size) -> Tuple[torch.Size]:
+    return (event_shape, event_shape)
+```
+
+:::note
+Yet to be decided: what do we want as the convention when a `Bijector` does not use any parameters? Should it return `None` or a single `torch.Size()`?
+:::
