@@ -17,4 +17,4 @@ We believe, although still a nascent field, that normalizing flows are a fundame
 
 [FlowTorch](https://flowtorch.ai) is a library that provides PyTorch components for constructing such flows using the latest research in the field. *Moreover, it defines a well-designed interface so that researchers can easily contribute their implementations.*
 
-For more theoretical background on normalizing flows and information about their applications, see the primer [here](/users/univariate) and the list of survey papers [here](/dev/surveys).
+For more theoretical background on normalizing flows and information about their applications, see the primer [here](/users/univariate) and the list of survey papers [here](/dev/bibliography#surveys).
