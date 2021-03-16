@@ -49,7 +49,7 @@ However, it can be advantageous to represent some structure in the distribution 
 
 :::info 
 
-Keeping this discussion in mind, we are developing an abstraction for expressing structure in a normalizing flow for the `v2.0` release. This abstraction is likely to belong to both `Params` and `Bijector`s, and analogously to the `.forward_shape` and `.backward_shape` methods, informs the `TransformedDistribution` class how the dependency structure is effected by each layer of the normalizing flow.
+Keeping this discussion in mind, we are developing an abstraction for expressing structure in a normalizing flow for the `v0.2` release. This abstraction is likely to belong to both `Params` and `Bijector`s, and analogously to the `.forward_shape` and `.backward_shape` methods, informs the `TransformedDistribution` class how the dependency structure is effected by each layer of the normalizing flow.
 
 There will likely be two methods exposed to the user on `TransformedDistribution`: `.factorization`, and `.topological_order`. The first, `.factorization` might return a dictionary from variable indices to the parents of that variable in a minimal I-map. Another possibility is for `.factorization` to input a variable indices and return the array of parent indices (in which case, perhaps it should be called `.parents` and perhaps there should be a `.children` too?). This may be better if calculating and returning the whole object is an expensive operation. The second, `.topological_order`, returns an array of indices in topological ordering, possibly only calculating this lazily the first time it is requested.
 
