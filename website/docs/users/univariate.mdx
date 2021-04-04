@@ -126,9 +126,8 @@ plt.show()
 <p align="center">
 <img src="/img/normalizing_flows_i_11_0.png" />
 </p>
-The class `bijectors.Compose` combines multiple `Bijector`s with [function composition](https://en.wikipedia.org/wiki/Function_composition) to produce a single *plan* for a Normalizing Flow, which is then intiated in the regular way. There are other ways to combine multiple flows - see [here](/users/composing).
 
-For the forward operation, transformations are applied in the order of the list that is the second argument to [TransformedDistribution](https://pytorch.org/docs/master/distributions.html#torch.distributions.transformed_distribution.TransformedDistribution). In this case, first [AffineTransform](https://pytorch.org/docs/master/distributions.html#torch.distributions.transforms.AffineTransform) is applied to the base distribution and then [ExpTransform](https://pytorch.org/docs/master/distributions.html#torch.distributions.transforms.ExpTransform).
+The class `bijectors.Compose` combines multiple `Bijector`s with [function composition](https://en.wikipedia.org/wiki/Function_composition) to produce a single *plan* for a Normalizing Flow, which is then intiated in the regular way. There are other ways to combine multiple flows - see [here](/users/composing). For the forward operation, transformations are applied in the order of the list. In this case, first `Affine` is applied to the base distribution and then `Exp`.
 
 ## Learnable Univariate `Bijector`s
 Having introduced the interface for bijections and transformed distributions, we now show how to represent *learnable* transforms and use them for density estimation. Our dataset in this section and the next will comprise samples along two concentric circles. Examining the joint and marginal distributions:
@@ -146,7 +145,13 @@ plt.xlabel(r'$x_1$')
 plt.ylabel(r'$x_2$')
 plt.scatter(X[:,0], X[:,1], alpha=0.5)
 plt.show()
+```
 
+<p align="center">
+<img src="/img/normalizing_flows_i_14_0.png" />
+</p>
+
+```python
 plt.subplot(1, 2, 1)
 sns.distplot(X[:,0], hist=False, kde=True, 
              bins=None,
@@ -161,3 +166,90 @@ sns.distplot(X[:,1], hist=False, kde=True,
 plt.title(r'$p(x_2)$')
 plt.show()
 ```
+
+<p align="center">
+<img src="/img/normalizing_flows_i_14_1.png" />
+</p>
+
+We will learn the marginals of the above distribution using a learnable transform, `bijectors.Spline`, defined on a two-dimensional input:
+
+```python
+dist_x = dist.Normal(torch.zeros(2), torch.ones(2))
+flow = bijectors.Spline()
+dist_y, params = flow(dist_x)
+```
+
+The main difference between this section and the previous is that we make use of the second argument, `params`, returned from instantiating the flow. `params` is a `torch.nn.Module` that when called with a value for `x` returns a tuple of parameters for the `Bijector`.
+
+`bijectors.Spline` passes each dimension of its input through a separate monotonically increasing function known as a spline. From a high-level, a spline is a complex parametrizable curve for which we can define specific points known as knots that it passes through and the derivatives at the knots. The knots and their derivatives are parameters that can be learnt, e.g., through stochastic gradient descent on a maximum likelihood objective, as we now demonstrate:
+
+```python
+optimizer = torch.optim.Adam(params.parameters(), lr=1e-2)
+for step in range(steps):
+    optimizer.zero_grad()
+    loss = -dist_y.log_prob(X).mean()
+    loss.backward()
+    optimizer.step()
+
+    if step % 200 == 0:
+        print('step: {}, loss: {}'.format(step, loss.item()))
+```
+
+```
+step: 0, loss: 2.682476758956909
+step: 200, loss: 1.278384804725647
+step: 400, loss: 1.2647961378097534
+step: 600, loss: 1.2601449489593506
+step: 800, loss: 1.2561875581741333
+step: 1000, loss: 1.2545257806777954
+```
+
+Plotting samples drawn from the transformed distribution after learning:
+```python
+X_flow = flow_dist.sample(torch.Size([1000,])).detach().numpy()
+plt.title(r'Joint Distribution')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.scatter(X[:,0], X[:,1], label='data', alpha=0.5)
+plt.scatter(X_flow[:,0], X_flow[:,1], color='firebrick', label='flow', alpha=0.5)
+plt.legend()
+plt.show()
+```
+
+<p align="center">
+<img src="/img/normalizing_flows_i_20_0.png" />
+</p>
+
+```python
+plt.subplot(1, 2, 1)
+sns.distplot(X[:,0], hist=False, kde=True,
+             bins=None,
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 2},
+             label='data')
+sns.distplot(X_flow[:,0], hist=False, kde=True,
+             bins=None, color='firebrick',
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 2},
+             label='flow')
+plt.title(r'$p(x_1)$')
+plt.subplot(1, 2, 2)
+sns.distplot(X[:,1], hist=False, kde=True,
+             bins=None,
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 2},
+             label='data')
+sns.distplot(X_flow[:,1], hist=False, kde=True,
+             bins=None, color='firebrick',
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 2},
+             label='flow')
+plt.title(r'$p(x_2)$')
+plt.show()
+```
+
+<p align="center">
+<img src="/img/normalizing_flows_i_20_1.png" />
+</p>
+
+As we can see, we have learnt close approximations to the marginal distributions, $p(x_1),p(x_2)$. It would have been challenging to fit the irregularly shaped marginals with standard methods, for example, a mixture of normal distributions. As expected, since there is a dependency between the two dimensions, we do not learn a good representation of the joint, $p(x_1,x_2)$. In the next section, we explain how to learn multivariate distributions whose dimensions are not independent.

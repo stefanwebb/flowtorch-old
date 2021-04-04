@@ -22,10 +22,10 @@ This page lists the scope of upcoming releases. A more detailed list of planned 
 * Integrate Sphinx output with Docusaurus v2
 
 ### Library
-* State-of-the-art `Bijector`: `SplineAutoregressive`
+* State-of-the-art `Bijector`s: `SplineAutoregressive`
 * Caching with cache-flush on gradient update
 * Structured representations
-* Testing of GPU and TorchScript support with unit tests
+* Testing of GPU, serialization, and TorchScript support with unit tests
 * Submission of [PyTorch Ecosystem](https://pytorch.org/ecosystem/) [application](https://pytorch.org/ecosystem/join).
 
 ### Website
