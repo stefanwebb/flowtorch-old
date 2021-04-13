@@ -3,7 +3,7 @@ id: roadmap
 title: Roadmap
 sidebar_label: Roadmap
 ---
-This page lists the scope of upcoming releases. A more detailed list of planned features and improvements is to be found [here](https://github.com/stefanwebb/flowtorch/projects). We are aiming for a [**March 31, 2021** release of `v0.1`](https://www.timeanddate.com/countdown/wfh?iso=20210331T235959&p0=224&msg=FlowTorch+v0.1+Release&font=slab)! 
+This page lists the scope of upcoming releases. A more detailed list of planned features and improvements is to be found [here](https://github.com/stefanwebb/flowtorch/projects). We are aiming for a **May 31, 2021** release of `v0.1`! 
 
 ## `v0.1`
 ### Library
