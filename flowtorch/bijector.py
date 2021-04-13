@@ -13,20 +13,18 @@ import flowtorch.distributions
 
 class Bijector(object):
     _inv: Optional[Union[weakref.ReferenceType, "Bijector"]]
-    _context_size: int
-    event_dim: int = 0
 
     # Metadata about (the default) bijector
     domain: constraints.Constraint = constraints.real
     codomain: constraints.Constraint = constraints.real
-    identity_initialization = True
+    near_identity_initialization = True
     autoregressive = False
+    volume_preserving = True
 
-    def __init__(self, param_fn: "flowtorch.Params", context_size: int = 0) -> None:
+    def __init__(self, param_fn: "flowtorch.Params") -> None:
         super().__init__()
         self.param_fn = param_fn
         self._inv = None
-        self._context_size = context_size
 
     def __call__(
         self, base_dist: torch.distributions.Distribution
@@ -44,7 +42,7 @@ class Bijector(object):
             # simple.bijectors.*.__init__
             input_shape = base_dist.batch_shape + base_dist.event_shape
             params = self.param_fn(
-                input_shape, self.param_shapes(base_dist), self._context_size
+                input_shape, self.param_shapes(base_dist)
             )  # <= this is where hypernets etc. are instantiated
             new_dist = flowtorch.distributions.TransformedDistribution(
                 base_dist, self, params
@@ -59,16 +57,13 @@ class Bijector(object):
         self,
         x: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
-        assert context.shape == (self._context_size,)
-        return self._forward(x, params, context)
+        return self._forward(x, params)
 
     def _forward(
         self,
         x: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
         """
         Abstract method to compute forward transformation.
@@ -79,16 +74,13 @@ class Bijector(object):
         self,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
-        assert context.shape == (self._context_size,)
-        return self._inverse(y, params, context)
+        return self._inverse(y, params)
 
     def _inverse(
         self,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
         """
         Abstract method to compute inverse transformation.
@@ -100,20 +92,18 @@ class Bijector(object):
         x: torch.Tensor,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
         """
         Computes the log det jacobian `log |dy/dx|` given input and output.
         By default, assumes a volume preserving bijection.
         """
-        return self._log_abs_det_jacobian(x, y, params, context)
+        return self._log_abs_det_jacobian(x, y, params)
 
     def _log_abs_det_jacobian(
         self,
         x: torch.Tensor,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
         """
         Computes the log det jacobian `log |dy/dx|` given input and output.
@@ -146,6 +136,22 @@ class Bijector(object):
     def __repr__(self) -> str:
         return self.__class__.__name__ + "()"
 
+    def forward_shape(self, event_shape):
+        """
+        Infers the shape of the forward computation, given the input shape.
+        Defaults to preserving shape.
+        """
+        assert len(event_shape) == self.domain.event_dim
+        return event_shape
+
+    def inverse_shape(self, event_shape):
+        """
+        Infers the shapes of the inverse computation, given the output shape.
+        Defaults to preserving shape.
+        """
+        assert len(event_shape) == self.codomain.event_dim
+        return event_shape
+
 
 class _InverseBijector(Bijector):
     _inv: Bijector
@@ -160,8 +166,6 @@ class _InverseBijector(Bijector):
         self.param_fn = bijector.param_fn
         self.domain = bijector.codomain
         self.codomain = bijector.domain
-        self.event_dim = bijector.event_dim
-        self._context_size = bijector._context_size
 
     @property
     def inv(self):
@@ -177,26 +181,23 @@ class _InverseBijector(Bijector):
         self,
         x: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
-        return self._inv.inverse(x, params, context)
+        return self._inv.inverse(x, params)
 
     def _inverse(
         self,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
-        return self._inv.forward(y, params, context)
+        return self._inv.forward(y, params)
 
     def _log_abs_det_jacobian(
         self,
         x: torch.Tensor,
         y: torch.Tensor,
         params: Optional["flowtorch.ParamsModule"],
-        context: torch.Tensor,
     ) -> torch.Tensor:
-        return -self._inv.log_abs_det_jacobian(y, x, params, context)
+        return -self._inv.log_abs_det_jacobian(y, x, params)
 
     def param_shapes(
         self, dist: torch.distributions.Distribution
